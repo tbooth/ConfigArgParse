@@ -12,12 +12,10 @@ import sys
 import types
 from collections import OrderedDict
 import textwrap
+from io import StringIO
 
-if sys.version_info >= (3, 0):
-    from io import StringIO
-else:
-    from StringIO import StringIO
-
+import logging
+L = logging.getLogger(__name__)
 
 ACTION_TYPES_THAT_DONT_NEED_A_VALUE = [argparse._StoreTrueAction,
     argparse._StoreFalseAction, argparse._CountAction,
@@ -700,7 +698,7 @@ class ArgumentParser(argparse.ArgumentParser):
                 with self._config_file_open_func(output_file_path, "w") as output_file:
                     output_file.write(file_contents)
 
-            print("Wrote config file to " + ", ".join(output_file_paths))
+            L.info("Wrote config file to " + ", ".join(output_file_paths))
             if exit_after:
                 self.exit(0)
 

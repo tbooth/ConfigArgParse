@@ -5,19 +5,11 @@ import inspect
 import logging
 import os
 import sys
-import tempfile
+from tempfile import NamedTemporaryFile
 import types
 import unittest
-
-try:
-    import mock
-except ImportError:
-    from unittest import mock
-
-if sys.version_info >= (3, 0):
-    from io import StringIO
-else:
-    from StringIO import StringIO
+from unittest import mock
+from io import StringIO
 
 if sys.version_info >= (3, 10):
     OPTIONAL_ARGS_STRING="options"
@@ -29,7 +21,7 @@ os.environ['COLUMNS'] = '80'
 
 # enable logging to simplify debugging
 logger = logging.getLogger()
-logger.level = logging.DEBUG
+logger.level = logging.WARNING
 stream_handler = logging.StreamHandler(sys.stdout)
 logger.addHandler(stream_handler)
 
@@ -66,6 +58,9 @@ def captured_output():
 
 class TestCase(unittest.TestCase):
 
+    def setUp(self):
+        self.initParser(args_for_setting_config_path=[])
+
     def initParser(self, *args, **kwargs):
         p = configargparse.ArgParser(*args, **kwargs)
         self.parser = replace_error_method(p)
@@ -75,6 +70,7 @@ class TestCase(unittest.TestCase):
         self.format_values = self.parser.format_values
         self.format_help = self.parser.format_help
 
+        # TODO - do we really need this??
         if not hasattr(self, "assertRegex"):
             self.assertRegex = self.assertRegexpMatches
         if not hasattr(self, "assertRaisesRegex"):
@@ -88,8 +84,6 @@ class TestCase(unittest.TestCase):
 
 
 class TestBasicUseCases(TestCase):
-    def setUp(self):
-        self.initParser(args_for_setting_config_path=[])
 
     def testBasicCase1(self):
         ## Test command line and config file values
@@ -103,16 +97,10 @@ class TestBasicUseCases(TestCase):
             self.add_arg('--foo', action="store_true", default=False)
 
         # make sure required args are enforced
-        self.assertParseArgsRaises("too few arg"
-            if sys.version_info.major < 3 else
-            "the following arguments are required",  args="")
-        self.assertParseArgsRaises("argument -y/--arg-y is required"
-            if sys.version_info.major < 3 else
-            "the following arguments are required: -y/--arg-y",
+        self.assertParseArgsRaises("the following arguments are required",  args="")
+        self.assertParseArgsRaises("the following arguments are required: -y/--arg-y",
             args="-x --arg-z 11 file1.txt")
-        self.assertParseArgsRaises("argument --arg-z is required"
-            if sys.version_info.major < 3 else
-            "the following arguments are required: --arg-z",
+        self.assertParseArgsRaises("the following arguments are required: --arg-z",
             args="file1.txt file2.txt file3.txt -x -y 1")
 
         # check values after setting args on command line
@@ -170,135 +158,130 @@ class TestBasicUseCases(TestCase):
     def testBasicCase2(self, use_groups=False):
 
         ## Test command line, config file and env var values
-        default_config_file = tempfile.NamedTemporaryFile(mode="w", delete=True)
-        default_config_file.flush()
+        with NamedTemporaryFile(mode="w", delete=True) as default_config_file, \
+             NamedTemporaryFile(mode="w", delete=True) as config_file2:
+            default_config_file.flush()
 
-        p = self.initParser(default_config_files=['/etc/settings.ini',
-                '/home/jeff/.user_settings', default_config_file.name])
-        p.add_arg('vcf', nargs='+', help='Variant file(s)')
-        if not use_groups:
-            self.add_arg('--genome', help='Path to genome file', required=True)
-            self.add_arg('-v', dest='verbose', action='store_true')
-            self.add_arg('-g', '--my-cfg-file', required=True,
-                         is_config_file=True)
-            self.add_arg('-d', '--dbsnp', env_var='DBSNP_PATH')
-            self.add_arg('-f', '--format',
-                         choices=["BED", "MAF", "VCF", "WIG", "R"],
-                         dest="fmt", metavar="FRMT", env_var="OUTPUT_FORMAT",
-                         default="BED")
-        else:
-            g = p.add_argument_group(title="g1")
-            g.add_arg('--genome', help='Path to genome file', required=True)
-            g.add_arg('-v', dest='verbose', action='store_true')
-            g.add_arg('-g', '--my-cfg-file', required=True,
-                      is_config_file=True)
-            g = p.add_argument_group(title="g2")
-            g.add_arg('-d', '--dbsnp', env_var='DBSNP_PATH')
-            g.add_arg('-f', '--format',
-                      choices=["BED", "MAF", "VCF", "WIG", "R"],
-                      dest="fmt", metavar="FRMT", env_var="OUTPUT_FORMAT",
-                      default="BED")
+            p = self.initParser(default_config_files=['/etc/settings.ini',
+                    '/home/jeff/.user_settings', default_config_file.name])
+            p.add_arg('vcf', nargs='+', help='Variant file(s)')
+            if not use_groups:
+                self.add_arg('--genome', help='Path to genome file', required=True)
+                self.add_arg('-v', dest='verbose', action='store_true')
+                self.add_arg('-g', '--my-cfg-file', required=True,
+                             is_config_file=True)
+                self.add_arg('-d', '--dbsnp', env_var='DBSNP_PATH')
+                self.add_arg('-f', '--format',
+                             choices=["BED", "MAF", "VCF", "WIG", "R"],
+                             dest="fmt", metavar="FRMT", env_var="OUTPUT_FORMAT",
+                             default="BED")
+            else:
+                g = p.add_argument_group(title="g1")
+                g.add_arg('--genome', help='Path to genome file', required=True)
+                g.add_arg('-v', dest='verbose', action='store_true')
+                g.add_arg('-g', '--my-cfg-file', required=True,
+                          is_config_file=True)
+                g = p.add_argument_group(title="g2")
+                g.add_arg('-d', '--dbsnp', env_var='DBSNP_PATH')
+                g.add_arg('-f', '--format',
+                          choices=["BED", "MAF", "VCF", "WIG", "R"],
+                          dest="fmt", metavar="FRMT", env_var="OUTPUT_FORMAT",
+                          default="BED")
 
-        # make sure required args are enforced
-        self.assertParseArgsRaises("too few arg"
-                                   if sys.version_info.major < 3 else
-                                   "the following arguments are required: vcf, -g/--my-cfg-file",
-                                   args="--genome hg19")
-        self.assertParseArgsRaises("Unable to open config file: file.txt. Error: No such file or director", args="-g file.txt")
+            # make sure required args are enforced
+            self.assertParseArgsRaises("the following arguments are required: vcf, -g/--my-cfg-file",
+                                       args="--genome hg19")
+            self.assertParseArgsRaises("Unable to open config file: file.txt. Error: No such file or director", args="-g file.txt")
 
-        # check values after setting args on command line
-        config_file2 = tempfile.NamedTemporaryFile(mode="w", delete=True)
-        config_file2.flush()
+            # check values after setting args on command line
+            config_file2.flush()
 
-        ns = self.parse(args="--genome hg19 -g %s bla.vcf " % config_file2.name)
-        self.assertEqual(ns.genome, "hg19")
-        self.assertEqual(ns.verbose, False)
-        self.assertIsNone(ns.dbsnp)
-        self.assertEqual(ns.fmt, "BED")
-        self.assertListEqual(ns.vcf, ["bla.vcf"])
+            ns = self.parse(args="--genome hg19 -g %s bla.vcf " % config_file2.name)
+            self.assertEqual(ns.genome, "hg19")
+            self.assertEqual(ns.verbose, False)
+            self.assertIsNone(ns.dbsnp)
+            self.assertEqual(ns.fmt, "BED")
+            self.assertListEqual(ns.vcf, ["bla.vcf"])
 
-        self.assertRegex(self.format_values(),
-            'Command Line Args:   --genome hg19 -g [^\\s]+ bla.vcf\n'
-            'Defaults:\n'
-            '  --format: \\s+ BED\n')
+            self.assertRegex(self.format_values(),
+                'Command Line Args:   --genome hg19 -g [^\\s]+ bla.vcf\n'
+                'Defaults:\n'
+                '  --format: \\s+ BED\n')
 
-        # check precedence: args > env > config > default using the --format arg
-        default_config_file.write("--format MAF")
-        default_config_file.flush()
-        ns = self.parse(args="--genome hg19 -g %s f.vcf " % config_file2.name)
-        self.assertEqual(ns.fmt, "MAF")
-        self.assertRegex(self.format_values(),
-            'Command Line Args:   --genome hg19 -g [^\\s]+ f.vcf\n'
-            'Config File \\([^\\s]+\\):\n'
-            '  --format: \\s+ MAF\n')
+            # check precedence: args > env > config > default using the --format arg
+            default_config_file.write("--format MAF")
+            default_config_file.flush()
+            ns = self.parse(args="--genome hg19 -g %s f.vcf " % config_file2.name)
+            self.assertEqual(ns.fmt, "MAF")
+            self.assertRegex(self.format_values(),
+                'Command Line Args:   --genome hg19 -g [^\\s]+ f.vcf\n'
+                'Config File \\([^\\s]+\\):\n'
+                '  --format: \\s+ MAF\n')
 
-        config_file2.write("--format VCF")
-        config_file2.flush()
-        ns = self.parse(args="--genome hg19 -g %s f.vcf " % config_file2.name)
-        self.assertEqual(ns.fmt, "VCF")
-        self.assertRegex(self.format_values(),
-            'Command Line Args:   --genome hg19 -g [^\\s]+ f.vcf\n'
-            'Config File \\([^\\s]+\\):\n'
-            '  --format: \\s+ VCF\n')
+            config_file2.write("--format VCF")
+            config_file2.flush()
+            ns = self.parse(args="--genome hg19 -g %s f.vcf " % config_file2.name)
+            self.assertEqual(ns.fmt, "VCF")
+            self.assertRegex(self.format_values(),
+                'Command Line Args:   --genome hg19 -g [^\\s]+ f.vcf\n'
+                'Config File \\([^\\s]+\\):\n'
+                '  --format: \\s+ VCF\n')
 
-        ns = self.parse(env_vars={"OUTPUT_FORMAT":"R", "DBSNP_PATH":"/a/b.vcf"},
-            args="--genome hg19 -g %s f.vcf " % config_file2.name)
-        self.assertEqual(ns.fmt, "R")
-        self.assertEqual(ns.dbsnp, "/a/b.vcf")
-        self.assertRegex(self.format_values(),
-            'Command Line Args:   --genome hg19 -g [^\\s]+ f.vcf\n'
-            'Environment Variables:\n'
-            '  DBSNP_PATH: \\s+ /a/b.vcf\n'
-            '  OUTPUT_FORMAT: \\s+ R\n')
+            ns = self.parse(env_vars={"OUTPUT_FORMAT":"R", "DBSNP_PATH":"/a/b.vcf"},
+                args="--genome hg19 -g %s f.vcf " % config_file2.name)
+            self.assertEqual(ns.fmt, "R")
+            self.assertEqual(ns.dbsnp, "/a/b.vcf")
+            self.assertRegex(self.format_values(),
+                'Command Line Args:   --genome hg19 -g [^\\s]+ f.vcf\n'
+                'Environment Variables:\n'
+                '  DBSNP_PATH: \\s+ /a/b.vcf\n'
+                '  OUTPUT_FORMAT: \\s+ R\n')
 
-        ns = self.parse(env_vars={"OUTPUT_FORMAT":"R", "DBSNP_PATH":"/a/b.vcf",
-                                  "ANOTHER_VAR":"something"},
-            args="--genome hg19 -g %s --format WIG f.vcf" % config_file2.name)
-        self.assertEqual(ns.fmt, "WIG")
-        self.assertEqual(ns.dbsnp, "/a/b.vcf")
-        self.assertRegex(self.format_values(),
-            'Command Line Args:   --genome hg19 -g [^\\s]+ --format WIG f.vcf\n'
-            'Environment Variables:\n'
-            '  DBSNP_PATH: \\s+ /a/b.vcf\n')
+            ns = self.parse(env_vars={"OUTPUT_FORMAT":"R", "DBSNP_PATH":"/a/b.vcf",
+                                      "ANOTHER_VAR":"something"},
+                args="--genome hg19 -g %s --format WIG f.vcf" % config_file2.name)
+            self.assertEqual(ns.fmt, "WIG")
+            self.assertEqual(ns.dbsnp, "/a/b.vcf")
+            self.assertRegex(self.format_values(),
+                'Command Line Args:   --genome hg19 -g [^\\s]+ --format WIG f.vcf\n'
+                'Environment Variables:\n'
+                '  DBSNP_PATH: \\s+ /a/b.vcf\n')
 
-        if not use_groups:
-            self.assertRegex(self.format_help(),
-                'usage: .* \\[-h\\] --genome GENOME \\[-v\\] -g MY_CFG_FILE\n?'
-                '\\s+\\[-d DBSNP\\]\\s+\\[-f FRMT\\]\\s+vcf \\[vcf ...\\]\n\n'
-                'positional arguments:\n'
-                '  vcf \\s+ Variant file\\(s\\)\n\n'
-                '%s:\n'
-                '  -h, --help \\s+ show this help message and exit\n'
-                '  --genome GENOME \\s+ Path to genome file\n'
-                '  -v\n'
-                '  -g MY_CFG_FILE, --my-cfg-file MY_CFG_FILE\n'
-                '  -d DBSNP, --dbsnp DBSNP\\s+\\[env var: DBSNP_PATH\\]\n'
-                '  -f FRMT, --format FRMT\\s+\\[env var: OUTPUT_FORMAT\\]\n\n'%OPTIONAL_ARGS_STRING +
-                7*r'(.+\s*)')
-        else:
-            self.assertRegex(self.format_help(),
-                'usage: .* \\[-h\\] --genome GENOME \\[-v\\] -g MY_CFG_FILE\n?'
-                '\\s+\\[-d DBSNP\\]\\s+\\[-f FRMT\\]\\s+vcf \\[vcf ...\\]\n\n'
-                'positional arguments:\n'
-                '  vcf \\s+ Variant file\\(s\\)\n\n'
-                '%s:\n'
-                '  -h, --help \\s+ show this help message and exit\n\n'
-                'g1:\n'
-                '  --genome GENOME \\s+ Path to genome file\n'
-                '  -v\n'
-                '  -g MY_CFG_FILE, --my-cfg-file MY_CFG_FILE\n\n'
-                'g2:\n'
-                '  -d DBSNP, --dbsnp DBSNP\\s+\\[env var: DBSNP_PATH\\]\n'
-                '  -f FRMT, --format FRMT\\s+\\[env var: OUTPUT_FORMAT\\]\n\n'%OPTIONAL_ARGS_STRING +
-                7*r'(.+\s*)')
+            if not use_groups:
+                self.assertRegex(self.format_help(),
+                    'usage: .* \\[-h\\] --genome GENOME \\[-v\\] -g MY_CFG_FILE\n?'
+                    '\\s+\\[-d DBSNP\\]\\s+\\[-f FRMT\\]\\s+vcf \\[vcf ...\\]\n\n'
+                    'positional arguments:\n'
+                    '  vcf \\s+ Variant file\\(s\\)\n\n'
+                    '%s:\n'
+                    '  -h, --help \\s+ show this help message and exit\n'
+                    '  --genome GENOME \\s+ Path to genome file\n'
+                    '  -v\n'
+                    '  -g MY_CFG_FILE, --my-cfg-file MY_CFG_FILE\n'
+                    '  -d DBSNP, --dbsnp DBSNP\\s+\\[env var: DBSNP_PATH\\]\n'
+                    '  -f FRMT, --format FRMT\\s+\\[env var: OUTPUT_FORMAT\\]\n\n'%OPTIONAL_ARGS_STRING +
+                    7*r'(.+\s*)')
+            else:
+                self.assertRegex(self.format_help(),
+                    'usage: .* \\[-h\\] --genome GENOME \\[-v\\] -g MY_CFG_FILE\n?'
+                    '\\s+\\[-d DBSNP\\]\\s+\\[-f FRMT\\]\\s+vcf \\[vcf ...\\]\n\n'
+                    'positional arguments:\n'
+                    '  vcf \\s+ Variant file\\(s\\)\n\n'
+                    '%s:\n'
+                    '  -h, --help \\s+ show this help message and exit\n\n'
+                    'g1:\n'
+                    '  --genome GENOME \\s+ Path to genome file\n'
+                    '  -v\n'
+                    '  -g MY_CFG_FILE, --my-cfg-file MY_CFG_FILE\n\n'
+                    'g2:\n'
+                    '  -d DBSNP, --dbsnp DBSNP\\s+\\[env var: DBSNP_PATH\\]\n'
+                    '  -f FRMT, --format FRMT\\s+\\[env var: OUTPUT_FORMAT\\]\n\n'%OPTIONAL_ARGS_STRING +
+                    7*r'(.+\s*)')
 
-        self.assertParseArgsRaises("invalid choice: 'ZZZ'",
-            args="--genome hg19 -g %s --format ZZZ f.vcf" % config_file2.name)
-        self.assertParseArgsRaises("unrecognized arguments: --bla",
-            args="--bla --genome hg19 -g %s f.vcf" % config_file2.name)
-
-        default_config_file.close()
-        config_file2.close()
+            self.assertParseArgsRaises("invalid choice: 'ZZZ'",
+                args="--genome hg19 -g %s --format ZZZ f.vcf" % config_file2.name)
+            self.assertParseArgsRaises("unrecognized arguments: --bla",
+                args="--bla --genome hg19 -g %s f.vcf" % config_file2.name)
 
 
     def testBasicCase2_WithGroups(self):
@@ -315,7 +298,7 @@ class TestBasicUseCases(TestCase):
         self.add_arg('--config', is_config_file=True)
         self.add_arg('--arg1', default=1, type=int)
 
-        with tempfile.NamedTemporaryFile(mode='w', delete=False) as config_file:
+        with NamedTemporaryFile(mode='w', delete=False) as config_file:
             config_file.write('arg1 2')
             config_file_path = config_file.name
 
@@ -334,7 +317,11 @@ class TestBasicUseCases(TestCase):
         self.add_arg('--arg2')
         args, _ = self.parse_known('--arg2 3 --help', ignore_help_args=True)
         self.assertEqual(args.arg2, "3")
-        self.assertRaisesRegex(TypeError, "exit", self.parse_known, '--arg2 3 --help', ignore_help_args=False)
+
+        with mock.patch('sys.stdout', new_callable=StringIO) as mock_stdout:
+            self.assertRaisesRegex(TypeError, "exit", self.parse_known, '--arg2 3 --help', ignore_help_args=False)
+
+            self.assertTrue(mock_stdout.getvalue().startswith("usage"))
 
     def testPositionalAndConfigVarLists(self):
         self.initParser()
@@ -347,40 +334,40 @@ class TestBasicUseCases(TestCase):
         self.assertEqual(ns.a, "positional_value")
 
     def testMutuallyExclusiveArgs(self):
-        config_file = tempfile.NamedTemporaryFile(mode="w", delete=True)
+        with NamedTemporaryFile(mode="w", delete=True) as config_file:
 
-        p = self.parser
-        g = p.add_argument_group(title="group1")
-        g.add_arg('--genome', help='Path to genome file', required=True)
-        g.add_arg('-v', dest='verbose', action='store_true')
+            p = self.parser
+            g = p.add_argument_group(title="group1")
+            g.add_arg('--genome', help='Path to genome file', required=True)
+            g.add_arg('-v', dest='verbose', action='store_true')
 
-        g = p.add_mutually_exclusive_group(required=True)
-        g.add_arg('-f1', '--type1-cfg-file', is_config_file=True)
-        g.add_arg('-f2', '--type2-cfg-file', is_config_file=True)
+            g = p.add_mutually_exclusive_group(required=True)
+            g.add_arg('-f1', '--type1-cfg-file', is_config_file=True)
+            g.add_arg('-f2', '--type2-cfg-file', is_config_file=True)
 
-        g = p.add_mutually_exclusive_group(required=True)
-        g.add_arg('-f', '--format', choices=["BED", "MAF", "VCF", "WIG", "R"],
-                     dest="fmt", metavar="FRMT", env_var="OUTPUT_FORMAT",
-                     default="BED")
-        g.add_arg('-b', '--bam', dest='fmt', action="store_const", const="BAM",
-                  env_var='BAM_FORMAT')
+            g = p.add_mutually_exclusive_group(required=True)
+            g.add_arg('-f', '--format', choices=["BED", "MAF", "VCF", "WIG", "R"],
+                         dest="fmt", metavar="FRMT", env_var="OUTPUT_FORMAT",
+                         default="BED")
+            g.add_arg('-b', '--bam', dest='fmt', action="store_const", const="BAM",
+                      env_var='BAM_FORMAT')
 
-        ns = self.parse(args="--genome hg19 -f1 %s --bam" % config_file.name)
-        self.assertEqual(ns.genome, "hg19")
-        self.assertEqual(ns.verbose, False)
-        self.assertEqual(ns.fmt, "BAM")
+            ns = self.parse(args="--genome hg19 -f1 %s --bam" % config_file.name)
+            self.assertEqual(ns.genome, "hg19")
+            self.assertEqual(ns.verbose, False)
+            self.assertEqual(ns.fmt, "BAM")
 
-        ns = self.parse(env_vars={"BAM_FORMAT" : "true"},
-                        args="--genome hg19 -f1 %s" % config_file.name)
-        self.assertEqual(ns.genome, "hg19")
-        self.assertEqual(ns.verbose, False)
-        self.assertEqual(ns.fmt, "BAM")
-        self.assertRegex(self.format_values(),
-            'Command Line Args:   --genome hg19 -f1 [^\\s]+\n'
-            'Environment Variables:\n'
-            '  BAM_FORMAT: \\s+ true\n'
-            'Defaults:\n'
-            '  --format: \\s+ BED\n')
+            ns = self.parse(env_vars={"BAM_FORMAT" : "true"},
+                            args="--genome hg19 -f1 %s" % config_file.name)
+            self.assertEqual(ns.genome, "hg19")
+            self.assertEqual(ns.verbose, False)
+            self.assertEqual(ns.fmt, "BAM")
+            self.assertRegex(self.format_values(),
+                'Command Line Args:   --genome hg19 -f1 [^\\s]+\n'
+                'Environment Variables:\n'
+                '  BAM_FORMAT: \\s+ true\n'
+                'Defaults:\n'
+                '  --format: \\s+ BED\n')
 
         self.assertRegex(self.format_help(),
             r'usage: .* \[-h\] --genome GENOME \[-v\]\s+ \(-f1 TYPE1_CFG_FILE \|'
@@ -395,43 +382,40 @@ class TestBasicUseCases(TestCase):
             '  --genome GENOME       Path to genome file\n'
             '  -v\n\n'%OPTIONAL_ARGS_STRING +
             5*r'(.+\s*)')
-        config_file.close()
 
     def testSubParsers(self):
-        config_file1 = tempfile.NamedTemporaryFile(mode="w", delete=True)
-        config_file1.write("--i = B")
-        config_file1.flush()
+        with NamedTemporaryFile(mode="w", delete=True) as config_file1, \
+             NamedTemporaryFile(mode="w", delete=True) as config_file2:
+            config_file1.write("--i = B")
+            config_file1.flush()
 
-        config_file2 = tempfile.NamedTemporaryFile(mode="w", delete=True)
-        config_file2.write("p = 10")
-        config_file2.flush()
+            config_file2.write("p = 10")
+            config_file2.flush()
 
-        parser = configargparse.ArgumentParser(prog="myProg")
-        subparsers = parser.add_subparsers(title="actions")
+            parser = configargparse.ArgumentParser(prog="myProg")
+            subparsers = parser.add_subparsers(title="actions")
 
-        parent_parser = configargparse.ArgumentParser(add_help=False)
-        parent_parser.add_argument("-p", "--p", type=int, required=True,
-                                   help="set db parameter")
+            parent_parser = configargparse.ArgumentParser(add_help=False)
+            parent_parser.add_argument("-p", "--p", type=int, required=True,
+                                       help="set db parameter")
 
-        create_p = subparsers.add_parser("create", parents=[parent_parser],
-                                         help="create the orbix environment")
-        create_p.add_argument("--i", env_var="INIT", choices=["A","B"],
-                              default="A")
-        create_p.add_argument("-config", is_config_file=True)
+            create_p = subparsers.add_parser("create", parents=[parent_parser],
+                                             help="create the orbix environment")
+            create_p.add_argument("--i", env_var="INIT", choices=["A","B"],
+                                  default="A")
+            create_p.add_argument("-config", is_config_file=True)
 
 
-        update_p = subparsers.add_parser("update", parents=[parent_parser],
-                                         help="update the orbix environment")
-        update_p.add_argument("-config2", is_config_file=True, required=True)
+            update_p = subparsers.add_parser("update", parents=[parent_parser],
+                                             help="update the orbix environment")
+            update_p.add_argument("-config2", is_config_file=True, required=True)
 
-        ns = parser.parse_args(args = "create -p 2 -config "+config_file1.name)
-        self.assertEqual(ns.p, 2)
-        self.assertEqual(ns.i, "B")
+            ns = parser.parse_args(args = "create -p 2 -config "+config_file1.name)
+            self.assertEqual(ns.p, 2)
+            self.assertEqual(ns.i, "B")
 
-        ns = parser.parse_args(args = "update -config2 " + config_file2.name)
-        self.assertEqual(ns.p, 10)
-        config_file1.close()
-        config_file2.close()
+            ns = parser.parse_args(args = "update -config2 " + config_file2.name)
+            self.assertEqual(ns.p, 10)
 
     def testAddArgsErrors(self):
         self.assertRaisesRegex(ValueError, "arg with "
@@ -507,17 +491,13 @@ class TestBasicUseCases(TestCase):
         self.assertEqual(ns.m, [['1', '2', '3'], ['4', '5', '6']])
 
         # -x is not a long arg so can't be set via config file
-        self.assertParseArgsRaises("argument -x is required"
-                                   if sys.version_info.major < 3 else
-                                   "the following arguments are required: -x, --y",
+        self.assertParseArgsRaises("the following arguments are required: -x, --y",
                                    args="",
                                    config_file_contents="-x 3")
         self.assertParseArgsRaises("invalid float value: 'abc'",
                                    args="-x 5",
                                    config_file_contents="y: abc")
-        self.assertParseArgsRaises("argument --y is required"
-                                   if sys.version_info.major < 3 else
-                                   "the following arguments are required: --y",
+        self.assertParseArgsRaises("the following arguments are required: --y",
                                    args="-x 5",
                                    config_file_contents="z: 1")
 
@@ -795,8 +775,6 @@ class TestMisc(TestCase):
     # TODO test different action types with config file, env var
 
     """Test edge cases"""
-    def setUp(self):
-        self.initParser(args_for_setting_config_path=[])
 
     @mock.patch('argparse.ArgumentParser.__init__')
     def testKwrgsArePassedToArgParse(self, argparse_init):
@@ -835,90 +813,88 @@ class TestMisc(TestCase):
         self.add_arg("--x", required=True)
 
         # verify parsing from config file
-        config_file = tempfile.NamedTemporaryFile(mode="w", delete=True)
-        config_file.write("x=bla")
-        config_file.flush()
+        with NamedTemporaryFile(mode="w", delete=True) as config_file:
+            config_file.write("x=bla")
+            config_file.flush()
 
-        ns = self.parse(args="-c %s" % config_file.name)
-        self.assertEqual(ns.x, "bla")
+            ns = self.parse(args="-c %s" % config_file.name)
+            self.assertEqual(ns.x, "bla")
 
     def testConstructor_ConfigFileArgs(self):
         # Test constructor args:
         #   args_for_setting_config_path
         #   config_arg_is_required
         #   config_arg_help_message
-        temp_cfg = tempfile.NamedTemporaryFile(mode="w", delete=True)
-        temp_cfg.write("genome=hg19")
-        temp_cfg.flush()
+        with NamedTemporaryFile(mode="w", delete=True) as temp_cfg:
+            temp_cfg.write("genome=hg19")
+            temp_cfg.flush()
 
-        self.initParser(args_for_setting_config_path=["-c", "--config"],
-                        config_arg_is_required = True,
-                        config_arg_help_message = "my config file",
-                        default_config_files=[temp_cfg.name])
-        self.add_arg('--genome', help='Path to genome file', required=True)
-        self.assertParseArgsRaises("argument -c/--config is required"
-                                   if sys.version_info.major < 3 else
-                                   "arguments are required: -c/--config",
-                                   args="")
+            self.initParser(args_for_setting_config_path=["-c", "--config"],
+                            config_arg_is_required = True,
+                            config_arg_help_message = "my config file",
+                            default_config_files=[temp_cfg.name])
+            self.add_arg('--genome', help='Path to genome file', required=True)
+            self.assertParseArgsRaises("arguments are required: -c/--config",
+                                       args="")
 
-        temp_cfg2 = tempfile.NamedTemporaryFile(mode="w", delete=True)
-        ns = self.parse("-c " + temp_cfg2.name)
-        self.assertEqual(ns.genome, "hg19")
+            with  NamedTemporaryFile(mode="w", delete=True) as temp_cfg2:
+                ns = self.parse("-c " + temp_cfg2.name)
+                self.assertEqual(ns.genome, "hg19")
 
-        # temp_cfg2 config file should override default config file values
-        temp_cfg2.write("genome=hg20")
-        temp_cfg2.flush()
-        ns = self.parse("-c " + temp_cfg2.name)
-        self.assertEqual(ns.genome, "hg20")
+                # temp_cfg2 config file should override default config file values
+                temp_cfg2.write("genome=hg20")
+                temp_cfg2.flush()
+                ns = self.parse("-c " + temp_cfg2.name)
+                self.assertEqual(ns.genome, "hg20")
 
-        self.assertRegex(self.format_help(),
-            'usage: .* \\[-h\\] -c CONFIG_FILE --genome GENOME\n\n'
-            '%s:\n'
-            '  -h, --help\\s+ show this help message and exit\n'
-            '  -c CONFIG_FILE, --config CONFIG_FILE\\s+ my config file\n'
-            '  --genome GENOME\\s+ Path to genome file\n\n'%OPTIONAL_ARGS_STRING +
-            5*r'(.+\s*)')
+            self.assertRegex(self.format_help(),
+                'usage: .* \\[-h\\] -c CONFIG_FILE --genome GENOME\n\n'
+                '%s:\n'
+                '  -h, --help\\s+ show this help message and exit\n'
+                '  -c CONFIG_FILE, --config CONFIG_FILE\\s+ my config file\n'
+                '  --genome GENOME\\s+ Path to genome file\n\n'%OPTIONAL_ARGS_STRING +
+                5*r'(.+\s*)')
 
-        # just run print_values() to make sure it completes and returns None
-        output = StringIO()
-        self.assertIsNone(self.parser.print_values(file=output))
-        self.assertIn("Command Line Args:", output.getvalue())
+            # just run print_values() to make sure it completes and returns None
+            output = StringIO()
+            self.assertIsNone(self.parser.print_values(file=output))
+            self.assertIn("Command Line Args:", output.getvalue())
 
-        # test ignore_unknown_config_file_keys=False
-        self.initParser(ignore_unknown_config_file_keys=False)
-        self.assertRaisesRegex(argparse.ArgumentError, "unrecognized arguments",
-            self.parse, config_file_contents="arg1 = 3")
-        ns, args = self.parse_known(config_file_contents="arg1 = 3")
-        self.assertEqual(getattr(ns, "arg1", ""), "")
+            # test ignore_unknown_config_file_keys=False
+            self.initParser(ignore_unknown_config_file_keys=False)
+            self.assertRaisesRegex(argparse.ArgumentError, "unrecognized arguments",
+                self.parse, config_file_contents="arg1 = 3")
+            ns, args = self.parse_known(config_file_contents="arg1 = 3")
+            self.assertEqual(getattr(ns, "arg1", ""), "")
 
-        # test ignore_unknown_config_file_keys=True
-        self.initParser(ignore_unknown_config_file_keys=True)
-        ns = self.parse(args="", config_file_contents="arg1 = 3")
-        self.assertEqual(getattr(ns, "arg1", ""), "")
-        ns, args = self.parse_known(config_file_contents="arg1 = 3")
-        self.assertEqual(getattr(ns, "arg1", ""), "")
+            # test ignore_unknown_config_file_keys=True
+            self.initParser(ignore_unknown_config_file_keys=True)
+            ns = self.parse(args="", config_file_contents="arg1 = 3")
+            self.assertEqual(getattr(ns, "arg1", ""), "")
+            ns, args = self.parse_known(config_file_contents="arg1 = 3")
+            self.assertEqual(getattr(ns, "arg1", ""), "")
 
     def test_AbbrevConfigFileArgs(self):
         """Tests that abbreviated values don't get pulled from config file.
 
         """
-        temp_cfg = tempfile.NamedTemporaryFile(mode="w", delete=True)
-        temp_cfg.write("a2a = 0.5\n")
-        temp_cfg.write("a3a = 0.5\n")
-        temp_cfg.flush()
+        with NamedTemporaryFile(mode="w", delete=True) as temp_cfg:
+            temp_cfg.write("a2a = 0.5\n")
+            temp_cfg.write("a3a = 0.5\n")
+            temp_cfg.flush()
 
-        self.initParser()
+            self.initParser()
 
-        self.add_arg('-c', '--config_file', required=False, is_config_file=True,
-                     help='config file path')
+            self.add_arg('-c', '--config_file', required=False, is_config_file=True,
+                         help='config file path')
 
-        self.add_arg('--hello', type=int, required=False)
+            self.add_arg('--hello', type=int, required=False)
 
-        command = '-c {} --hello 2'.format(temp_cfg.name)
+            command = '-c {} --hello 2'.format(temp_cfg.name)
 
-        known, unknown = self.parse_known(command)
+            known, unknown = self.parse_known(command)
 
-        self.assertListEqual(unknown, ['--a2a=0.5', '--a3a=0.5'])
+            self.assertListEqual(unknown, ['--a2a=0.5', '--a3a=0.5'])
 
     def test_FormatHelp(self):
         self.initParser(args_for_setting_config_path=["-c", "--config"],
@@ -973,87 +949,85 @@ class TestMisc(TestCase):
         # Test constructor args:
         #   args_for_writing_out_config_file
         #   write_out_config_file_arg_help_message
-        cfg_f = tempfile.NamedTemporaryFile(mode="w+", delete=True)
-        self.initParser(args_for_writing_out_config_file=["-w"],
-                        write_out_config_file_arg_help_message="write config")
+        with NamedTemporaryFile(mode="w+", delete=True) as cfg_f:
+            self.initParser(args_for_writing_out_config_file=["-w"],
+                            write_out_config_file_arg_help_message="write config")
 
 
-        self.add_arg("-not-config-file-settable")
-        self.add_arg("--config-file-settable-arg", type=int)
-        self.add_arg("--config-file-settable-arg2", type=int, default=3)
-        self.add_arg("--config-file-settable-flag", action="store_true")
-        self.add_arg("--config-file-settable-custom", type=TestMisc.valid_custom)
-        self.add_arg("-l", "--config-file-settable-list", action="append")
+            self.add_arg("-not-config-file-settable")
+            self.add_arg("--config-file-settable-arg", type=int)
+            self.add_arg("--config-file-settable-arg2", type=int, default=3)
+            self.add_arg("--config-file-settable-flag", action="store_true")
+            self.add_arg("--config-file-settable-custom", type=TestMisc.valid_custom)
+            self.add_arg("-l", "--config-file-settable-list", action="append")
 
-        # write out a config file
-        command_line_args = "-w %s " % cfg_f.name
-        command_line_args += "--config-file-settable-arg 1 "
-        command_line_args += "--config-file-settable-flag "
-        command_line_args += "--config-file-settable-custom custom_value "
-        command_line_args += "-l a -l b -l c -l d "
+            # write out a config file
+            command_line_args = "-w %s " % cfg_f.name
+            command_line_args += "--config-file-settable-arg 1 "
+            command_line_args += "--config-file-settable-flag "
+            command_line_args += "--config-file-settable-custom custom_value "
+            command_line_args += "-l a -l b -l c -l d "
 
-        self.assertFalse(self.parser._exit_method_called)
+            self.assertFalse(self.parser._exit_method_called)
 
-        ns = self.parse(command_line_args)
-        self.assertTrue(self.parser._exit_method_called)
+            ns = self.parse(command_line_args)
+            self.assertTrue(self.parser._exit_method_called)
 
-        cfg_f.seek(0)
-        expected_config_file_contents = "config-file-settable-arg = 1\n"
-        expected_config_file_contents += "config-file-settable-flag = true\n"
-        expected_config_file_contents += "config-file-settable-custom = custom_value\n"
-        expected_config_file_contents += "config-file-settable-list = [a, b, c, d]\n"
-        expected_config_file_contents += "config-file-settable-arg2 = 3\n"
+            cfg_f.seek(0)
+            expected_config_file_contents = "config-file-settable-arg = 1\n"
+            expected_config_file_contents += "config-file-settable-flag = true\n"
+            expected_config_file_contents += "config-file-settable-custom = custom_value\n"
+            expected_config_file_contents += "config-file-settable-list = [a, b, c, d]\n"
+            expected_config_file_contents += "config-file-settable-arg2 = 3\n"
 
-        self.assertEqual(cfg_f.read().strip(),
-            expected_config_file_contents.strip())
-        self.assertRaisesRegex(ValueError, "Couldn't open / for writing:",
-            self.parse, args = command_line_args + " -w /")
-        cfg_f.close()
+            self.assertEqual(cfg_f.read().strip(),
+                expected_config_file_contents.strip())
+            self.assertRaisesRegex(ValueError, "Couldn't open / for writing:",
+                self.parse, args = command_line_args + " -w /")
 
     def testConstructor_WriteOutConfigFileArgs2(self):
         # Test constructor args:
         #   args_for_writing_out_config_file
         #   write_out_config_file_arg_help_message
-        cfg_f = tempfile.NamedTemporaryFile(mode="w+", delete=True)
-        self.initParser(args_for_writing_out_config_file=["-w"],
-                        write_out_config_file_arg_help_message="write config")
+        with NamedTemporaryFile(mode="w+", delete=True) as cfg_f:
+            self.initParser(args_for_writing_out_config_file=["-w"],
+                            write_out_config_file_arg_help_message="write config")
 
 
-        self.add_arg("-not-config-file-settable")
-        self.add_arg("-a", "--arg1", type=int, env_var="ARG1")
-        self.add_arg("-b", "--arg2", type=int, default=3)
-        self.add_arg("-c", "--arg3")
-        self.add_arg("-d", "--arg4")
-        self.add_arg("-e", "--arg5")
-        self.add_arg("--config-file-settable-flag", action="store_true",
-                     env_var="FLAG_ARG")
-        self.add_arg("-l", "--config-file-settable-list", action="append")
+            self.add_arg("-not-config-file-settable")
+            self.add_arg("-a", "--arg1", type=int, env_var="ARG1")
+            self.add_arg("-b", "--arg2", type=int, default=3)
+            self.add_arg("-c", "--arg3")
+            self.add_arg("-d", "--arg4")
+            self.add_arg("-e", "--arg5")
+            self.add_arg("--config-file-settable-flag", action="store_true",
+                         env_var="FLAG_ARG")
+            self.add_arg("-l", "--config-file-settable-list", action="append")
 
-        # write out a config file
-        command_line_args = "-w %s " % cfg_f.name
-        command_line_args += "-l a -l b -l c -l d "
+            # write out a config file
+            command_line_args = "-w %s " % cfg_f.name
+            command_line_args += "-l a -l b -l c -l d "
 
-        self.assertFalse(self.parser._exit_method_called)
+            self.assertFalse(self.parser._exit_method_called)
 
-        ns = self.parse(command_line_args,
-                        env_vars={"ARG1": "10", "FLAG_ARG": "true",
-                                "SOME_OTHER_ENV_VAR": "2"},
-                        config_file_contents="arg3 = bla3\narg4 = bla4")
-        self.assertTrue(self.parser._exit_method_called)
+            ns = self.parse(command_line_args,
+                            env_vars={"ARG1": "10", "FLAG_ARG": "true",
+                                    "SOME_OTHER_ENV_VAR": "2"},
+                            config_file_contents="arg3 = bla3\narg4 = bla4")
+            self.assertTrue(self.parser._exit_method_called)
 
-        cfg_f.seek(0)
-        expected_config_file_contents = "config-file-settable-list = [a, b, c, d]\n"
-        expected_config_file_contents += "arg1 = 10\n"
-        expected_config_file_contents += "config-file-settable-flag = True\n"
-        expected_config_file_contents += "arg3 = bla3\n"
-        expected_config_file_contents += "arg4 = bla4\n"
-        expected_config_file_contents += "arg2 = 3\n"
+            cfg_f.seek(0)
+            expected_config_file_contents = "config-file-settable-list = [a, b, c, d]\n"
+            expected_config_file_contents += "arg1 = 10\n"
+            expected_config_file_contents += "config-file-settable-flag = True\n"
+            expected_config_file_contents += "arg3 = bla3\n"
+            expected_config_file_contents += "arg4 = bla4\n"
+            expected_config_file_contents += "arg2 = 3\n"
 
-        self.assertEqual(cfg_f.read().strip(),
-                         expected_config_file_contents.strip())
-        self.assertRaisesRegex(ValueError, "Couldn't open / for writing:",
-                                self.parse, args = command_line_args + " -w /")
-        cfg_f.close()
+            self.assertEqual(cfg_f.read().strip(),
+                             expected_config_file_contents.strip())
+            self.assertRaisesRegex(ValueError, "Couldn't open / for writing:",
+                                    self.parse, args = command_line_args + " -w /")
 
     def testConstructor_WriteOutConfigFileArgsLong(self):
         """Test config writing with long version of arg
@@ -1065,39 +1039,38 @@ class TestMisc(TestCase):
         # Test constructor args:
         #   args_for_writing_out_config_file
         #   write_out_config_file_arg_help_message
-        cfg_f = tempfile.NamedTemporaryFile(mode="w+", delete=True)
-        self.initParser(args_for_writing_out_config_file=["--write-config"],
-                        write_out_config_file_arg_help_message="write config")
+        with NamedTemporaryFile(mode="w+", delete=True) as cfg_f:
+            self.initParser(args_for_writing_out_config_file=["--write-config"],
+                            write_out_config_file_arg_help_message="write config")
 
 
-        self.add_arg("-not-config-file-settable")
-        self.add_arg("--config-file-settable-arg", type=int)
-        self.add_arg("--config-file-settable-arg2", type=int, default=3)
-        self.add_arg("--config-file-settable-flag", action="store_true")
-        self.add_arg("-l", "--config-file-settable-list", action="append")
+            self.add_arg("-not-config-file-settable")
+            self.add_arg("--config-file-settable-arg", type=int)
+            self.add_arg("--config-file-settable-arg2", type=int, default=3)
+            self.add_arg("--config-file-settable-flag", action="store_true")
+            self.add_arg("-l", "--config-file-settable-list", action="append")
 
-        # write out a config file
-        command_line_args = "--write-config %s " % cfg_f.name
-        command_line_args += "--config-file-settable-arg 1 "
-        command_line_args += "--config-file-settable-flag "
-        command_line_args += "-l a -l b -l c -l d "
+            # write out a config file
+            command_line_args = "--write-config %s " % cfg_f.name
+            command_line_args += "--config-file-settable-arg 1 "
+            command_line_args += "--config-file-settable-flag "
+            command_line_args += "-l a -l b -l c -l d "
 
-        self.assertFalse(self.parser._exit_method_called)
+            self.assertFalse(self.parser._exit_method_called)
 
-        ns = self.parse(command_line_args)
-        self.assertTrue(self.parser._exit_method_called)
+            ns = self.parse(command_line_args)
+            self.assertTrue(self.parser._exit_method_called)
 
-        cfg_f.seek(0)
-        expected_config_file_contents = "config-file-settable-arg = 1\n"
-        expected_config_file_contents += "config-file-settable-flag = true\n"
-        expected_config_file_contents += "config-file-settable-list = [a, b, c, d]\n"
-        expected_config_file_contents += "config-file-settable-arg2 = 3\n"
+            cfg_f.seek(0)
+            expected_config_file_contents = "config-file-settable-arg = 1\n"
+            expected_config_file_contents += "config-file-settable-flag = true\n"
+            expected_config_file_contents += "config-file-settable-list = [a, b, c, d]\n"
+            expected_config_file_contents += "config-file-settable-arg2 = 3\n"
 
-        self.assertEqual(cfg_f.read().strip(),
-            expected_config_file_contents.strip())
-        self.assertRaisesRegex(ValueError, "Couldn't open / for writing:",
-            self.parse, args = command_line_args + " --write-config /")
-        cfg_f.close()
+            self.assertEqual(cfg_f.read().strip(),
+                expected_config_file_contents.strip())
+            self.assertRaisesRegex(ValueError, "Couldn't open / for writing:",
+                self.parse, args = command_line_args + " --write-config /")
 
     def testMethodAliases(self):
         p = self.parser
@@ -1142,6 +1115,9 @@ class TestMisc(TestCase):
 
 class TestConfigFileParsers(TestCase):
     """Test ConfigFileParser subclasses in isolation"""
+    def setUp(self):
+        # No setup for this one
+        pass
 
     def testDefaultConfigFileParser_Basic(self):
         p = configargparse.DefaultConfigFileParser()
@@ -1487,54 +1463,11 @@ class TestConfigFileParsers(TestCase):
         self.assertDictEqual(parsed_obj, {'a': '3', 'list_arg': [1,2,3]})
 
 
-
 ################################################################################
 # since configargparse should work as a drop-in replacement for argparse
 # in all situations, run argparse unittests on configargparse by modifying
 # their source code to use configargparse.ArgumentParser
-
-try:
-    import test.test_argparse
-    #Sig = test.test_argparse.Sig
-    #NS = test.test_argparse.NS
-except ImportError:
-    logging.error("\n\n"
-        "============================\n"
-        "ERROR: Many tests couldn't be run because 'import test.test_argparse' "
-        "failed. Try building/installing python from source rather than through"
-        " a package manager.\n"
-        "============================\n")
-else:
-    test_argparse_source_code = inspect.getsource(test.test_argparse)
-    test_argparse_source_code = test_argparse_source_code.replace(
-        'argparse.ArgumentParser', 'configargparse.ArgumentParser').replace(
-        'TestHelpFormattingMetaclass', '_TestHelpFormattingMetaclass').replace(
-        'test_main', '_test_main')
-
-    # pytest tries to collect tests from TestHelpFormattingMetaclass, and
-    # test_main, and raises a warning when it finds it's not a test class
-    # nor test function. Renaming TestHelpFormattingMetaclass and test_main
-    # prevents pytest from trying.
-
-    # run or debug a subset of the argparse tests
-    #test_argparse_source_code = test_argparse_source_code.replace(
-    #   "(TestCase)", "").replace(
-    #   "(ParserTestCase)", "").replace(
-    #   "(HelpTestCase)", "").replace(
-    #   ", TestCase", "").replace(
-    #   ", ParserTestCase", "")
-    #test_argparse_source_code = test_argparse_source_code.replace(
-    #   "class TestMessageContentError", "class TestMessageContentError(TestCase)")
-
-    exec(test_argparse_source_code)
-
-    # print argparse unittest source code
-    def print_source_code(source_code, line_numbers, context_lines=10):
-         for n in line_numbers:
-             logging.debug("##### Code around line %s #####" % n)
-             lines_to_print = set(range(n - context_lines, n + context_lines))
-             for n2, line in enumerate(source_code.split("\n"), 1):
-                 if n2 in lines_to_print:
-                     logging.debug("%s %5d: %s" % (
-                        "**" if n2 == n else "  ", n2, line))
-    #print_source_code(test_argparse_source_code, [4540, 4565])
+#
+# TODO - this seems like a good idea, but in practise it's been troublesome
+# so I've removed it for now.
+# Maybe bring it back later.
