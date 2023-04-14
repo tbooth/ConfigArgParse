@@ -15,8 +15,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        python-version: ['3.6.15']
+        os: [ubuntu-20.04]
+        python-version: ['3.6']
       fail-fast: false
 
     steps:
