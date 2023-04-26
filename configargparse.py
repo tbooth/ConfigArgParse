@@ -17,9 +17,11 @@ from io import StringIO
 import logging
 L = logging.getLogger(__name__)
 
-ACTION_TYPES_THAT_DONT_NEED_A_VALUE = [argparse._StoreTrueAction,
-    argparse._StoreFalseAction, argparse._CountAction,
-    argparse._StoreConstAction, argparse._AppendConstAction]
+ACTION_TYPES_THAT_DONT_NEED_A_VALUE = [ argparse._StoreTrueAction,
+                                        argparse._StoreFalseAction,
+                                        argparse._CountAction,
+                                        argparse._StoreConstAction,
+                                        argparse._AppendConstAction ]
 
 if sys.version_info >= (3, 9):
     ACTION_TYPES_THAT_DONT_NEED_A_VALUE.append(argparse.BooleanOptionalAction)
@@ -27,8 +29,11 @@ if sys.version_info >= (3, 9):
 else:
     is_boolean_optional_action = lambda action: False
 
+# Convert to tuple() for use with isinstance
 ACTION_TYPES_THAT_DONT_NEED_A_VALUE = tuple(ACTION_TYPES_THAT_DONT_NEED_A_VALUE)
 
+STRINGS_THAT_MEAN_YES = "true yes on 1".split()
+STRINGS_THAT_MEAN_NO  = "false no off 0".split()
 
 # global ArgumentParser instances
 _parsers = {}
@@ -88,7 +93,8 @@ class ConfigFileParser(object):
 
         NOTE: For keys that were specified to configargparse as
         action="store_true" or "store_false", the config file value must be
-        one of: "yes", "no", "on", "off", "true", "false". Otherwise an error will be raised.
+        one of: "yes", "no", "on", "off", "true", "false", "1", "0".
+        Otherwise an error will be raised.
 
         Args:
             stream (IO): A config file input stream (such as an open file object).
@@ -790,13 +796,13 @@ class ArgumentParser(argparse.ArgumentParser):
 
         # handle boolean value
         if action is not None and isinstance(action, ACTION_TYPES_THAT_DONT_NEED_A_VALUE):
-            if value.lower() in ("true", "yes", "on", "1"):
+            if value.lower() in STRINGS_THAT_MEAN_YES:
                 if not is_boolean_optional_action(action):
                     args.append( command_line_key )
                 else:
                     # --foo
                     args.append(action.option_strings[0])
-            elif value.lower() in ("false", "no", "off", "0"):
+            elif value.lower() in STRINGS_THAT_MEAN_NO:
                 # don't append when set to "false" / "no"
                 if not is_boolean_optional_action(action):
                     pass
@@ -809,8 +815,11 @@ class ArgumentParser(argparse.ArgumentParser):
                         value = 0
                 args += [action.option_strings[0]] * int(value)
             else:
-                self.error("Unexpected value for %s: '%s'. Expecting 'true', "
-                           "'false', 'yes', 'no', 'on', 'off', '1' or '0'" % (key, value))
+                self.error("Unexpected value for %s: %s. " % (key, repr(value)) +
+                           "Expecting " + ", ".join([repr(v) for t in
+                                                     zip( STRINGS_THAT_MEAN_YES,
+                                                          STRINGS_THAT_MEAN_NO )
+                                                     for v in t]))
         elif isinstance(value, list):
             accepts_list_and_has_nargs = action is not None and action.nargs is not None and (
                    isinstance(action, argparse._StoreAction) or isinstance(action, argparse._AppendAction)
