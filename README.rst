@@ -56,7 +56,7 @@ Features
 -  extensible (:code:`ConfigFileParser` can be subclassed to define a new
    config file format)
 -  unittested by running the unittests that came with argparse but on
-   configargparse, and using tox to test with Python 2.7 and Python 3+
+   configargparse, and using tox to test with CPython and PyPy
 
 Example
 ~~~~~~~
@@ -348,7 +348,7 @@ argparse in all usecases.
 
 Previously existing modules (PyPI search keywords: config argparse):
 
--  argparse (built-in module Python v2.7+)
+-  argparse (built-in Python module)
 
    -  Good:
 
