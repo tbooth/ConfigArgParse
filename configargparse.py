@@ -3,16 +3,15 @@ A drop-in replacement for `argparse` that allows options to also be set via conf
 
 :see: `configargparse.ArgumentParser`, `configargparse.add_argument`
 """
+import os, sys, re
 import argparse
 import json
 import glob
-import os
-import re
-import sys
 import types
 from collections import OrderedDict
 import textwrap
 from io import StringIO
+from contextlib import suppress
 
 import logging
 L = logging.getLogger(__name__)
@@ -185,8 +184,9 @@ class DefaultConfigFileParser(ConfigFileParser):
                     # handle special case of k=[1,2,3] or other json-like syntax
                     try:
                         value = json.loads(value)
-                    except Exception as e:
-                        # for backward compatibility with legacy format (eg. where config value is [a, b, c] instead of proper json ["a", "b", "c"]
+                    except json.decoder.JSONDecodeError:
+                        # for backward compatibility with legacy format
+                        # (eg. where config value is [a, b, c] instead of proper json ["a", "b", "c"]
                         value = [elem.strip() for elem in value[1:-1].split(",")]
                 if comment:
                     comment = comment.strip()[1:].strip()
@@ -347,7 +347,7 @@ _DEFAULTS_SOURCE_KEY = "defaults"
 
 class ArgumentParser(argparse.ArgumentParser):
     """Drop-in replacement for `argparse.ArgumentParser` that adds support for
-    environment variables and ``.ini`` or ``.yaml-style`` config files.
+       environment variables and ``.ini`` or ``.yaml-style`` config files.
     """
 
     def __init__(self, *args, **kwargs):
@@ -480,6 +480,27 @@ class ArgumentParser(argparse.ArgumentParser):
             self.error('unrecognized arguments: %s' % ' '.join(argv))
         return args
 
+    def insert_args(self, args, extra_args):
+        """Given an existing list of args, insert extra_args in a robust way
+           by putting them before the first entry that starts with '-',
+           and return the new list.
+        """
+        res = []
+        extras_added = False
+
+        for a in args:
+            if (not extras_added) and a.startswith('-'):
+                res.extend(extra_args)
+                extras_added = True
+            res.append(a)
+
+        if not extras_added:
+            # No hyphens in the original args list
+            res.extend(extra_args)
+
+        return res
+
+
     def parse_known_args(
             self,
             args=None,
@@ -527,10 +548,13 @@ class ArgumentParser(argparse.ArgumentParser):
         if self._auto_env_var_prefix is not None:
             for a in self._actions:
                 config_file_keys = self.get_possible_config_keys(a)
-                if config_file_keys and not (a.env_var or a.is_positional_arg
-                    or a.is_config_file_arg or a.is_write_out_config_file_arg or
-                    isinstance(a, argparse._VersionAction) or
-                    isinstance(a, argparse._HelpAction)):
+                if config_file_keys and not (
+                                  a.env_var
+                                  or a.is_positional_arg
+                                  or a.is_config_file_arg
+                                  or a.is_write_out_config_file_arg
+                                  or isinstance(a, argparse._VersionAction)
+                                  or isinstance(a, argparse._HelpAction) ):
                     stripped_config_file_key = config_file_keys[0].strip(
                         self.prefix_chars)
                     a.env_var = (self._auto_env_var_prefix +
@@ -538,7 +562,6 @@ class ArgumentParser(argparse.ArgumentParser):
 
         # add env var settings to the commandline that aren't there already
         env_var_args = []
-        nargs = False
         actions_with_env_var_values = [a for a in self._actions
             if not a.is_positional_arg and a.env_var and a.env_var in env_vars
                 and not already_on_command_line(args, a.option_strings, self.prefix_chars)]
@@ -547,7 +570,6 @@ class ArgumentParser(argparse.ArgumentParser):
             value = env_vars[key]
             # Make list-string into list.
             if action.nargs or isinstance(action, argparse._AppendAction):
-                nargs = True
                 if value.startswith("[") and value.endswith("]"):
                     # handle special case of k=[1,2,3] or other json-like syntax
                     try:
@@ -558,10 +580,7 @@ class ArgumentParser(argparse.ArgumentParser):
             env_var_args += self.convert_item_to_command_line_arg(
                 action, key, value)
 
-        if nargs:
-            args = args + env_var_args
-        else:
-            args = env_var_args + args
+        args = self.insert_args(args, env_var_args)
 
         if env_var_args:
             self._source_to_settings[_ENV_VAR_SOURCE_KEY] = OrderedDict(
@@ -594,12 +613,11 @@ class ArgumentParser(argparse.ArgumentParser):
             except ConfigFileParserException as e:
                 self.error(e)
             finally:
-                if hasattr(stream, "close"):
+                with suppress(AttributeError):
                     stream.close()
 
             # add each config item to the commandline unless it's there already
             config_args = []
-            nargs = False
             for key, value in config_items.items():
                 if key in known_config_keys:
                     action = known_config_keys[key]
@@ -620,14 +638,8 @@ class ArgumentParser(argparse.ArgumentParser):
                     if source_key not in self._source_to_settings:
                         self._source_to_settings[source_key] = OrderedDict()
                     self._source_to_settings[source_key][key] = (action, value)
-                    if (action and action.nargs or
-                        isinstance(action, argparse._AppendAction)):
-                        nargs = True
 
-            if nargs:
-                args = args + config_args
-            else:
-                args = config_args + args
+            args = self.insert_args(args, config_args)
 
         # save default settings for use by print_values()
         default_settings = OrderedDict()
