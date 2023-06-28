@@ -480,11 +480,15 @@ class ArgumentParser(argparse.ArgumentParser):
             self.error('unrecognized arguments: %s' % ' '.join(argv))
         return args
 
-    def insert_args(self, args, extra_args):
+    def insert_args(self, args, extra_args, actions=()):
         """Given an existing list of args, insert extra_args in a robust way
            by putting them before the first entry that starts with '-',
            and return the new list.
         """
+        if any( isinstance(x, argparse._SubParsersAction) for x in actions ):
+            # There's no way to handle this robustly. Best effort...
+            return extra_args + args
+
         res = []
         extras_added = False
 
@@ -580,7 +584,7 @@ class ArgumentParser(argparse.ArgumentParser):
             env_var_args += self.convert_item_to_command_line_arg(
                 action, key, value)
 
-        args = self.insert_args(args, env_var_args)
+        args = self.insert_args(args, env_var_args, self._actions)
 
         if env_var_args:
             self._source_to_settings[_ENV_VAR_SOURCE_KEY] = OrderedDict(
@@ -639,7 +643,7 @@ class ArgumentParser(argparse.ArgumentParser):
                         self._source_to_settings[source_key] = OrderedDict()
                     self._source_to_settings[source_key][key] = (action, value)
 
-            args = self.insert_args(args, config_args)
+            args = self.insert_args(args, config_args, self._actions)
 
         # save default settings for use by print_values()
         default_settings = OrderedDict()

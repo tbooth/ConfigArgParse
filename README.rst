@@ -1,21 +1,12 @@
 ConfigArgParse
 --------------
 
-.. image:: https://img.shields.io/pypi/v/ConfigArgParse.svg?style=flat
-    :alt: PyPI version
-    :target: https://pypi.python.org/pypi/ConfigArgParse
+This is a fork from https://github.com/bw2/ConfigArgParse in an attempt to
+fix various bugs. The info below is currently just copied from the upstream
+version.
 
-.. image:: https://img.shields.io/pypi/pyversions/ConfigArgParse.svg
-    :alt: Supported Python versions
-    :target: https://pypi.python.org/pypi/ConfigArgParse
-
-.. image:: https://travis-ci.org/bw2/ConfigArgParse.svg?branch=master
-    :alt: Travis CI build
-    :target: https://travis-ci.org/bw2/ConfigArgParse
-
-.. image:: https://img.shields.io/badge/-API_Documentation-blue
-    :alt: API Documentation
-    :target: https://bw2.github.io/ConfigArgParse/
+One of the TODO items is to move the documentation below into a separate document,
+not just have it here in the main README.
 
 Overview
 ~~~~~~~~
@@ -29,9 +20,6 @@ support for config files and environment variables, so this module
 extends argparse to add these features.
 
 Available on PyPI: http://pypi.python.org/pypi/ConfigArgParse
-
-.. image:: https://travis-ci.org/bw2/ConfigArgParse.svg?branch=master
-    :target: https://travis-ci.org/bw2/ConfigArgParse
 
 Features
 ~~~~~~~~
