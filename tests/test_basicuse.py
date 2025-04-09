@@ -115,7 +115,7 @@ class TestBasicUseCases(TestCase):
             # make sure required args are enforced
             self.assertParseArgsRaises("the following arguments are required: vcf, -g/--my-cfg-file",
                                        args="--genome hg19")
-            self.assertParseArgsRaises("Unable to open config file: file.txt. Error: No such file or director", args="-g file.txt")
+            self.assertParseArgsRaises("Unable to open config file: 'file.txt'. Error: No such file or directory", args="-g file.txt")
 
             # check values after setting args on command line
             config_file2.flush()
