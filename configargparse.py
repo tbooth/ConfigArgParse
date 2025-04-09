@@ -3,18 +3,17 @@ A drop-in replacement for `argparse` that allows options to also be set via conf
 
 :see: `configargparse.ArgumentParser`, `configargparse.add_argument`
 """
+import os, sys, re
 import argparse
 import ast
 import csv
 import functools
 import json
 import glob
-import os
-import re
-import sys
 import types
 from collections import OrderedDict
 import textwrap
+from contextlib import suppress
 
 if sys.version_info >= (3, 0):
     from io import StringIO
@@ -184,8 +183,9 @@ class DefaultConfigFileParser(ConfigFileParser):
                     # handle special case of k=[1,2,3] or other json-like syntax
                     try:
                         value = json.loads(value)
-                    except Exception as e:
-                        # for backward compatibility with legacy format (eg. where config value is [a, b, c] instead of proper json ["a", "b", "c"]
+                    except json.decoder.JSONDecodeError as e:
+                        # for backward compatibility with legacy format
+                        # (eg. where config value is [a, b, c] instead of proper json ["a", "b", "c"]
                         value = [elem.strip() for elem in value[1:-1].split(",")]
                 if comment:
                     comment = comment.strip()[1:].strip()
@@ -348,7 +348,7 @@ class YAMLConfigFileParser(ConfigFileParser):
 Provides `configargparse.ConfigFileParser` classes to parse ``TOML`` and ``INI`` files with **mandatory** support for sections.
 Useful to integrate configuration into project files like ``pyproject.toml`` or ``setup.cfg``.
 
-`TomlConfigParser` usage: 
+`TomlConfigParser` usage:
 
 >>> TomlParser = TomlConfigParser(['tool.my_super_tool']) # Simple TOML parser.
 >>> parser = ArgumentParser(..., default_config_files=['./pyproject.toml'], config_file_parser_class=TomlParser)
@@ -373,15 +373,15 @@ _QUOTED_STR_REGEX = re.compile(r'(^\"(?:\\.|[^\"\\])*\"$)|'
                                r'(^\'(?:\\.|[^\'\\])*\'$)')
 
 _TRIPLE_QUOTED_STR_REGEX = re.compile(r'(^\"\"\"(\s+)?(([^\"]|\"([^\"]|\"[^\"]))*(\"\"?)?)?(\s+)?(?:\\.|[^\"\\])?\"\"\"$)|'
-                                                                                                 # Unescaped quotes at the end of a string generates 
-                                                                                                 # "SyntaxError: EOL while scanning string literal", 
+                                                                                                 # Unescaped quotes at the end of a string generates
+                                                                                                 # "SyntaxError: EOL while scanning string literal",
                                                                                                  # so we don't account for those kind of strings as quoted.
                                       r'(^\'\'\'(\s+)?(([^\']|\'([^\']|\'[^\']))*(\'\'?)?)?(\s+)?(?:\\.|[^\'\\])?\'\'\'$)', flags=re.DOTALL)
 
 @functools.lru_cache(maxsize=256, typed=True)
 def is_quoted(text, triple=True):
     """
-    Detect whether a string is a quoted representation. 
+    Detect whether a string is a quoted representation.
 
     :param triple: Also match tripple quoted strings.
     """
@@ -390,13 +390,13 @@ def is_quoted(text, triple=True):
 
 def unquote_str(text, triple=True):
     """
-    Unquote a maybe quoted string representation. 
+    Unquote a maybe quoted string representation.
     If the string is not detected as being a quoted representation, it returns the same string as passed.
     It supports all kinds of python quotes: ``\"\"\"``, ``'''``, ``"`` and ``'``.
 
     :param triple: Also unquote tripple quoted strings.
     @raises ValueError: If the string is detected as beeing quoted but literal_eval() fails to evaluate it as string.
-        This would be a bug in the regex. 
+        This would be a bug in the regex.
     """
     if is_quoted(text, triple=triple):
         try:
@@ -411,7 +411,7 @@ def parse_toml_section_name(section_name):
     """
     Parse a TOML section name to a sequence of strings.
 
-    The following names are all valid: 
+    The following names are all valid:
 
     .. python::
 
@@ -461,15 +461,17 @@ class TomlConfigParser(ConfigFileParser):
                        "https://twistedmatrix.com/documents/current/api/objects.inv"]
         # how to specify a multiline text:
         multi-line-text = '''
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-            Vivamus tortor odio, dignissim non ornare non, laoreet quis nunc. 
-            Maecenas quis dapibus leo, a pellentesque leo. 
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Vivamus tortor odio, dignissim non ornare non, laoreet quis nunc.
+            Maecenas quis dapibus leo, a pellentesque leo.
             '''
 
-    Note that the config file fragment above is also valid for the `IniConfigParser` class and would be parsed the same manner. 
-    Thought, any valid TOML config file will not be necessarly parsable with `IniConfigParser` (INI files must be rigorously indented whereas TOML files).
-    
-    See the `TOML specification <>`_ for details. 
+    Note that the config file fragment above is also valid for the `IniConfigParser` class and
+    would be parsed the same manner.
+    Thought, any valid TOML config file will not be necessarly parsable with `IniConfigParser`
+    (INI files must be rigorously indented, unlike TOML files).
+
+    See the `TOML specification <>`_ for details.
     """
 
     def __init__(self, sections):
@@ -478,7 +480,7 @@ class TomlConfigParser(ConfigFileParser):
         """
         super().__init__()
         self.sections = sections
-    
+
     def __call__(self):
         return self
 
@@ -497,7 +499,7 @@ class TomlConfigParser(ConfigFileParser):
         for section in self.sections:
             data = get_toml_section(config, section)
             if data:
-                # Seems a little weird, but anything that is not a list is converted to string, 
+                # Seems a little weird, but anything that is not a list is converted to string,
                 # It will be converted back to boolean, int or whatever after.
                 # Because config values are still passed to argparser for computation.
                 for key, value in data.items():
@@ -508,7 +510,7 @@ class TomlConfigParser(ConfigFileParser):
                     else:
                         result[key] = str(value)
                 break
-        
+
         return result
 
     def get_syntax_description(self):
@@ -526,9 +528,9 @@ class IniConfigParser(ConfigFileParser):
         ; also a comment
         [my-software]
         # how to specify a key-value pair
-        format-string: restructuredtext 
+        format-string: restructuredtext
         # white space are ignored, so name = value same as name=value
-        # this is why you can quote strings 
+        # this is why you can quote strings
         quoted-string = '\thello\tmom...  '
         # how to set an arg which has action="store_true"
         warnings-as-errors = true
@@ -538,11 +540,11 @@ class IniConfigParser(ConfigFileParser):
         repeatable-option = ["https://docs.python.org/3/objects.inv",
                        "https://twistedmatrix.com/documents/current/api/objects.inv"]
         # how to specify a multiline text:
-        multi-line-text = 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-            Vivamus tortor odio, dignissim non ornare non, laoreet quis nunc. 
-            Maecenas quis dapibus leo, a pellentesque leo. 
-    
+        multi-line-text =
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Vivamus tortor odio, dignissim non ornare non, laoreet quis nunc.
+            Maecenas quis dapibus leo, a pellentesque leo.
+
     Example (if split_ml_text_to_list=True)::
 
         # the same rules are applicable with the following changes:
@@ -553,9 +555,9 @@ class IniConfigParser(ConfigFileParser):
             https://twistedmatrix.com/documents/current/api/objects.inv
         # how to specify a multiline text (you have to quote it):
         multi-line-text = '''
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-            Vivamus tortor odio, dignissim non ornare non, laoreet quis nunc. 
-            Maecenas quis dapibus leo, a pellentesque leo. 
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Vivamus tortor odio, dignissim non ornare non, laoreet quis nunc.
+            Maecenas quis dapibus leo, a pellentesque leo.
             '''
     """
 
@@ -620,18 +622,18 @@ class IniConfigParser(ConfigFileParser):
     def get_syntax_description(self):
         msg = ("Uses configparser module to parse an INI file which allows multi-line values. "
                 "See https://docs.python.org/3/library/configparser.html for details. "
-                "This parser includes support for quoting strings literal as well as python list syntax evaluation. ")
+                "This parser includes support for quoting strings literal as well as python "
+                "list syntax evaluation. ")
         if self.split_ml_text_to_list:
             msg += ("Alternatively lists can be constructed with a plain multiline string, "
                 "each non-empty line will be converted to a list item.")
         return msg
 
 class CompositeConfigParser(ConfigFileParser):
-    """
-    Createa a config parser composed by others `ConfigFileParser`s.  
+    """Create a config parser composed by others `ConfigFileParser`s.
 
-    The composite parser will successively try to parse the file with each parser, 
-    until it succeeds, else raise execption with all encountered errors. 
+    The composite parser will successively try to parse the file with each parser,
+    until it succeeds, else raise execption with all encountered errors.
     """
 
     def __init__(self, config_parser_types):
@@ -651,15 +653,15 @@ class CompositeConfigParser(ConfigFileParser):
                 errors.append(e)
         raise ConfigFileParserException(
                 f"Error parsing config: {', '.join(repr(str(e)) for e in errors)}")
-    
+
     def get_syntax_description(self) :
         def guess_format_name(classname):
-            strip = classname.lower().strip('_').replace('parser', 
+            strip = classname.lower().strip('_').replace('parser',
                 '').replace('config', '').replace('file', '')
             return strip.upper() if strip else '??'
-        
+
         msg = "Uses multiple config parser settings (in order): \n"
-        for i, parser in enumerate(self.parsers): 
+        for i, parser in enumerate(self.parsers):
             msg += f"[{i+1}] {guess_format_name(parser.__class__.__name__)}: {parser.get_syntax_description()} \n"
         return msg
 
@@ -919,7 +921,7 @@ class ArgumentParser(argparse.ArgumentParser):
             except ConfigFileParserException as e:
                 self.error(str(e))
             finally:
-                if hasattr(stream, "close"):
+                with suppress(AttributeError):
                     stream.close()
 
             # add each config item to the commandline unless it's there already
@@ -1201,7 +1203,7 @@ class ArgumentParser(argparse.ArgumentParser):
 
         Args:
             command_line_args: List of all args
-        
+
         Returns:
             list[IO]: open config files
         """
@@ -1382,7 +1384,7 @@ def add_argument(self, *args, **kwargs):
             configargparse to write all current commandline args to this file
             as config options and then exit.
             Default: False
-    
+
     Returns:
         argparse.Action: the new argparse action
     """
@@ -1437,8 +1439,9 @@ def already_on_command_line(existing_args_list, potential_command_line_args, pre
     return any(
         potential_arg in arg_names for potential_arg in potential_command_line_args
     )
-#TODO: Update to latest version of pydoctor when https://github.com/twisted/pydoctor/pull/414 has been merged 
-# such that the alises can be documented automatically.
+
+# TODO: Update to latest version of pydoctor when https://github.com/twisted/pydoctor/pull/414
+# has been merged such that the alises can be documented automatically.
 
 # wrap ArgumentParser's add_argument(..) method with the one above
 argparse._ActionsContainer.original_add_argument_method = argparse._ActionsContainer.add_argument
