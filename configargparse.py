@@ -48,7 +48,7 @@ def init_argument_parser(name=None, **kwargs):
 
     if name in _parsers:
         raise ValueError(("kwargs besides 'name' can only be passed in the"
-            " first time. '%s' ArgumentParser already exists: %s") % (
+            " first time. {!r} ArgumentParser already exists: {}").format(
             name, _parsers[name]))
 
     kwargs.setdefault('formatter_class', argparse.ArgumentDefaultsHelpFormatter)
@@ -242,7 +242,7 @@ class ConfigparserConfigFileParser(ConfigFileParser):
         try:
             config.read_string(stream.read())
         except Exception as e:
-            raise ConfigFileParserException("Couldn't parse config file: %s" % e)
+            raise ConfigFileParserException(f"Couldn't parse config file: {e}")
 
         # convert to dict and remove INI section names
         result = OrderedDict()
@@ -314,12 +314,12 @@ class YAMLConfigFileParser(ConfigFileParser):
         try:
             parsed_obj = yaml.load(stream, Loader=SafeLoader)
         except Exception as e:
-            raise ConfigFileParserException("Couldn't parse config file: %s" % e)
+            raise ConfigFileParserException(f"Couldn't parse config file: {e}")
 
         if not isinstance(parsed_obj, dict):
             raise ConfigFileParserException("The config file doesn't appear to "
                 "contain 'key: value' pairs (aka. a YAML mapping). "
-                "yaml.load('%s') returned type '%s' instead of 'dict'." % (
+                "yaml.load({!r}) returned type {!r} instead of 'dict'.".format(
                 getattr(stream, 'name', 'stream'),  type(parsed_obj).__name__))
 
         result = OrderedDict()
@@ -491,7 +491,7 @@ class TomlConfigParser(ConfigFileParser):
         try:
             config = toml.load(stream)
         except Exception as e:
-            raise ConfigFileParserException("Couldn't parse TOML file: %s" % e)
+            raise ConfigFileParserException(f"Couldn't parse TOML file: {e}")
 
         # convert to dict and filter based on section names
         result = OrderedDict()
@@ -581,7 +581,7 @@ class IniConfigParser(ConfigFileParser):
         try:
             config.read_string(stream.read())
         except Exception as e:
-            raise ConfigFileParserException("Couldn't parse INI file: %s" % e)
+            raise ConfigFileParserException(f"Couldn't parse INI file: {e}")
 
         # convert to dict and filter based on INI section names
         result = OrderedDict()
@@ -804,7 +804,7 @@ class ArgumentParser(argparse.ArgumentParser):
             ignore_help_args=False)
 
         if argv:
-            self.error('unrecognized arguments: %s' % ' '.join(argv))
+            self.error(f"unrecognized arguments: {' '.join(argv)}")
         return args
 
     def insert_args(self, args, extra_args, actions=()):
@@ -1162,8 +1162,8 @@ class ArgumentParser(argparse.ArgumentParser):
                         value = 0
                 args += [action.option_strings[0]] * int(value)
             else:
-                self.error("Unexpected value for %s: '%s'. Expecting 'true', "
-                           "'false', 'yes', 'no', 'on', 'off', '1' or '0'" % (key, value))
+                self.error("Unexpected value for {}: {!r}. Expecting 'true', "
+                           "'false', 'yes', 'no', 'on', 'off', '1' or '0'".format(key, value))
         elif isinstance(value, list):
             accepts_list_and_has_nargs = action is not None and action.nargs is not None and (
                    isinstance(action, argparse._StoreAction) or isinstance(action, argparse._AppendAction)
@@ -1178,16 +1178,16 @@ class ArgumentParser(argparse.ArgumentParser):
                         for sub_elem in list_elem:
                             args.append(str(sub_elem))
                     else:
-                        args.append( "%s=%s" % (command_line_key, str(list_elem)) )
+                        args.append(f"{command_line_key}={list_elem}")
             elif accepts_list_and_has_nargs:
                 args.append( command_line_key )
                 for list_elem in value:
                     args.append( str(list_elem) )
             else:
-                self.error(("%s can't be set to a list '%s' unless its action type is changed "
-                            "to 'append' or nargs is set to '*', '+', or > 1") % (key, value))
+                self.error(("{} can't be set to a list {!r} unless its action type is changed "
+                            "to 'append' or nargs is set to '*', '+', or > 1").format(key, value))
         elif isinstance(value, str):
-            args.append( "%s=%s" % (command_line_key, value) )
+            args.append(f"{command_line_key,}={value}")
         else:
             raise ValueError("Unexpected value type {} for value: {}".format(
                 type(value), value))
@@ -1281,7 +1281,7 @@ class ArgumentParser(argparse.ArgumentParser):
                         config_file.close()
                     except Exception:
                         pass
-                self.error("Unable to open config file: %s. Error: %s" % (
+                self.error("Unable to open config file: {!r}. Error: {}".format(
                     user_config_file, msg
                 ))
 
@@ -1313,9 +1313,9 @@ class ArgumentParser(argparse.ArgumentParser):
                     r.write("  {:<19}{}\n".format(key+":", value))
                 else:
                     if isinstance(value, str):
-                        r.write("  %s\n" % value)
+                        r.write(f"  {value}\n")
                     elif isinstance(value, list):
-                        r.write("  %s\n" % ' '.join(value))
+                        r.write(f"  {' '.join(value)}\n")
 
         return r.getvalue()
 
@@ -1342,15 +1342,14 @@ class ArgumentParser(argparse.ArgumentParser):
                 self._add_config_file_help = False  # prevent duplication
                 added_config_file_help = True
 
-                msg += ("Args that start with '%s' can also be set in "
-                        "a config file") % cc
+                msg += f"Args that start with {cc!r} can also be set in a config file"
                 config_arg_string = " or ".join(a.option_strings[0]
                     for a in config_path_actions if a.option_strings)
                 if config_arg_string:
                     config_arg_string = "specified via " + config_arg_string
                 if default_config_files or config_arg_string:
-                    msg += " (%s)." % " or ".join(tuple(default_config_files) +
-                                                  tuple(filter(None, [config_arg_string])))
+                    msg += " ({}).".format(" or ".join(tuple(default_config_files) +
+                                                       tuple(filter(None, [config_arg_string]))) )
                 msg += " " + self._config_file_parser.get_syntax_description()
 
         if self._add_env_var_help:
@@ -1359,7 +1358,7 @@ class ArgumentParser(argparse.ArgumentParser):
             for env_var, a in env_var_actions:
                 if a.help == SUPPRESS:
                     continue
-                env_var_help_string = "   [env var: %s]" % env_var
+                env_var_help_string = f"   [env var: {env_var}]"
                 if not a.help:
                     a.help = ""
                 if env_var_help_string not in a.help:
@@ -1373,7 +1372,7 @@ class ArgumentParser(argparse.ArgumentParser):
                 value_sources = ["config file values"] + value_sources
             if added_env_var_help:
                 value_sources = ["environment variables"] + value_sources
-            msg += " In general, command-line values override %s." % (
+            msg += " In general, command-line values override {}.".format(
                 " which override ".join(value_sources))
 
         text_width = max(self._get_formatter()._width, 11)
