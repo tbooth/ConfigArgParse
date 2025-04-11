@@ -32,7 +32,11 @@ class TestBasicUseCases(TestCase):
 
         # This is what the regular argument parser makes of unexpected arguments,
         # when 'xval' cannot be interpreted as an int.
-        self.assertParseArgsRaises("argument rest: invalid int value: 'xval'",
+        if sys.version_info >= (3, 12):
+            expected_msg = "argument rest: invalid int value: 'xval'"
+        else:
+            expected_msg = "unrecognized arguments: --xxx xval 2 3"
+        self.assertParseArgsRaises(expected_msg,
                                    args="doit 1 --xxx xval --foo bar 2 3",
                                    intermixed=True)
 
@@ -45,8 +49,11 @@ class TestBasicUseCases(TestCase):
         self.assertEqual(args, [])
 
         # As above, but now "--xxx 4" is in the config so we get a slightly different message
-        self.assertParseArgsRaises("unrecognized arguments: --xxx=xxxval",
+        if sys.version_info >= (3, 12):
+            expected_msg = "unrecognized arguments: --xxx=xxxval"
+        else:
+            expected_msg = "unrecognized arguments: --xxx=xxxval 2 3"
+        self.assertParseArgsRaises(expected_msg,
                                    args="doit 1 --foo bar 2 3",
                                    config_file_contents="xxx: 'xxxval'",
                                    intermixed=True)
-
