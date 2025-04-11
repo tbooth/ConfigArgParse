@@ -918,6 +918,7 @@ class ArgumentParser(argparse.ArgumentParser):
                                          and not already_on_command_line(args,
                                                                          a.option_strings,
                                                                          self.prefix_chars)]
+
         for action in actions_with_env_var_values:
             key = action.env_var
             value = env_vars[key]
@@ -988,7 +989,7 @@ class ArgumentParser(argparse.ArgumentParser):
                 if not discard_this_key:
                     config_args += self.convert_item_to_command_line_arg(
                         action, key, value)
-                    source_key = "%s|%s" %(_CONFIG_FILE_SOURCE_KEY, stream.name)
+                    source_key = "{}|{}".format(_CONFIG_FILE_SOURCE_KEY, stream.name)
                     if source_key not in self._source_to_settings:
                         self._source_to_settings[source_key] = OrderedDict()
                     self._source_to_settings[source_key][key] = (action, value)
