@@ -874,9 +874,15 @@ class ArgumentParser(argparse.ArgumentParser):
         for a in self._actions:
             a.is_positional_arg = not a.option_strings
 
+        # See if there is a '--' in the args
+        try:
+            double_minus_pos = args.index("--")
+        except ValueError:
+            double_minus_pos = len(args) # ie. last index +1
+
         if ignore_help_args:
-            # FIXME - should stop scanning at '--'
-            args = [arg for arg in args if arg not in ("-h", "--help")]
+            args = [arg for idx, arg in enumerate(args) if
+                        arg not in ("-h", "--help") or idx > double_minus_pos ]
 
         # maps a string describing the source (eg. env var) to a settings dict
         # to keep track of where values came from (used by print_values()).
@@ -939,7 +945,7 @@ class ArgumentParser(argparse.ArgumentParser):
         supports_help_arg = any(
             a for a in self._actions if isinstance(a, argparse._HelpAction))
         skip_config_file_parsing = supports_help_arg and (
-            "-h" in args or "--help" in args)
+            any(arg in ("-h", "--help") for arg in args[:double_minus_pos]) )
 
         # prepare for reading config file(s)
         known_config_keys = {config_key: action for action in self._actions
