@@ -64,14 +64,17 @@ class TestCase(unittest.TestCase):
         self.parser = replace_error_method(p)
         self.add_arg = self.parser.add_argument
         self.parse = self.parser.parse_args
+        self.parse_intermixed = self.parser.parse_intermixed_args
         self.parse_known = self.parser.parse_known_args
         self.format_values = self.parser.format_values
         self.format_help = self.parser.format_help
 
         return self.parser
 
-    def assertParseArgsRaises(self, regex, args, **kwargs):
-        self.assertRaisesRegex(argparse.ArgumentError, regex, self.parse,
+    def assertParseArgsRaises(self, regex, args, intermixed=False, **kwargs):
+        func = self.parse_intermixed if intermixed else self.parse
+
+        self.assertRaisesRegex(argparse.ArgumentError, regex, func,
                                args=args, **kwargs)
 
     def tmpFile(self, **kwargs):

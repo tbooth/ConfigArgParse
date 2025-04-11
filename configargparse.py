@@ -767,7 +767,7 @@ class ArgumentParser(argparse.ArgumentParser):
         self._add_env_var_help = add_env_var_help
         self._auto_env_var_prefix = auto_env_var_prefix
 
-        argparse.ArgumentParser.__init__(self, *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         # parse the additional args
         if config_file_parser_class is None:
@@ -802,6 +802,34 @@ class ArgumentParser(argparse.ArgumentParser):
         Returns:
             argparse.Namespace: namespace
         """
+        return self._parse_args_cap(False, args=args,
+                                           namespace=namespace,
+                                           config_file_contents=config_file_contents,
+                                           env_vars=env_vars)
+
+    def parse_intermixed_args(self, args = None, namespace = None,
+                              config_file_contents = None, env_vars = os.environ):
+        """Supports all the same args as the `argparse.ArgumentParser.parse_intermixed_args()`,
+        as well as the following additional args.
+
+        Arguments:
+            args: a list of args as in argparse, or a string (eg. "-x -y bla")
+            config_file_contents: String. Used for testing.
+            env_vars: Dictionary. Used for testing.
+
+        Returns:
+            argparse.Namespace: namespace
+        """
+        return self._parse_args_cap(True, args=args,
+                                          namespace=namespace,
+                                          config_file_contents=config_file_contents,
+                                          env_vars=env_vars)
+
+    def _parse_args_cap(self, interleaved, args, namespace,
+                        config_file_contents, env_vars):
+        """This is the actual implementation of parse_known_args (with intermixed=False) or
+           parse_known_intermixed_args (with intermixed=True).
+        """
         args, argv = self.parse_known_args(
             args=args,
             namespace=namespace,
@@ -812,11 +840,6 @@ class ArgumentParser(argparse.ArgumentParser):
         if argv:
             self.error(f"unrecognized arguments: {' '.join(argv)}")
         return args
-
-    def parse_intermixed_args(self, args = None, namespace = None,
-                              config_file_contents = None, env_vars = os.environ):
-        # TODO - implement this, if possible
-        raise NotImplementedError()
 
     def insert_args(self, args, extra_args, actions=()):
         """Given an existing list of args, insert extra_args in a robust way
@@ -850,7 +873,7 @@ class ArgumentParser(argparse.ArgumentParser):
             env_vars=os.environ,
             ignore_help_args=False,
     ):
-        """Supports all the same args as the `argparse.ArgumentParser.parse_args()`,
+        """Supports all the same args as the `argparse.ArgumentParser.parse_known_args()`,
         as well as the following additional args.
 
         Arguments:
@@ -863,6 +886,54 @@ class ArgumentParser(argparse.ArgumentParser):
 
         Returns:
             tuple[argparse.Namespace, list[str]]: tuple namescpace, unknown_args
+        """
+        return self._parse_known_args_cap(intermixed=False,
+                                          args=args,
+                                          namespace=namespace,
+                                          config_file_contents=config_file_contents,
+                                          env_vars=env_vars,
+                                          ignore_help_args=ignore_help_args)
+
+    def parse_known_intermixed_args(
+            self,
+            args=None,
+            namespace=None,
+            config_file_contents=None,
+            env_vars=os.environ,
+            ignore_help_args=False,
+    ):
+        """Supports all the same args as the `argparse.ArgumentParser.parse_known_intermixed_args()`,
+        as well as the following additional args.
+
+        Arguments:
+            args: a list of args as in argparse, or a string (eg. "-x blah -y blaz")
+            config_file_contents (str). Used for testing.
+            env_vars (dict). Used for testing.
+            ignore_help_args (bool): This flag determines behavior when user specifies ``--help``
+                or ``-h``. If False, it will have the default behavior - printing help and exiting.
+                If True, it won't do either.
+
+        Returns:
+            tuple[argparse.Namespace, list[str]]: tuple namescpace, unknown_args
+        """
+        return self._parse_known_args_cap(intermixed=True,
+                                          args=args,
+                                          namespace=namespace,
+                                          config_file_contents=config_file_contents,
+                                          env_vars=env_vars,
+                                          ignore_help_args=ignore_help_args)
+
+    def _parse_known_args_cap(
+            self,
+            intermixed,
+            args,
+            namespace,
+            config_file_contents,
+            env_vars,
+            ignore_help_args
+    ):
+        """This is the actual implementation of parse_known_args (with intermixed=False) or
+           parse_known_intermixed_args (with intermixed=True).
         """
         if args is None:
             args = sys.argv[1:]
@@ -1018,8 +1089,10 @@ class ArgumentParser(argparse.ArgumentParser):
             self._source_to_settings[_DEFAULTS_SOURCE_KEY] = default_settings
 
         # parse all args (including commandline, config file, and env var)
-        namespace, unknown_args = argparse.ArgumentParser.parse_known_args(
-            self, args=args, namespace=namespace)
+        if intermixed:
+            namespace, unknown_args = super().parse_known_intermixed_args(args=args, namespace=namespace)
+        else:
+            namespace, unknown_args = super().parse_known_args(args=args, namespace=namespace)
         # handle any args that have is_write_out_config_file_arg set to true
         # check if the user specified this arg on the commandline
         output_file_paths = [getattr(namespace, a.dest, None) for a in self._actions
@@ -1403,7 +1476,7 @@ class ArgumentParser(argparse.ArgumentParser):
         text_width = max(self._get_formatter()._width, 11)
         msg = textwrap.fill(msg, text_width)
 
-        return (argparse.ArgumentParser.format_help(self)
+        return (super().format_help()
               + ("\n{}\n".format(msg) if msg != "" else ""))
 
 
