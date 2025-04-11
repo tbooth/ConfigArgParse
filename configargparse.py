@@ -825,12 +825,13 @@ class ArgumentParser(argparse.ArgumentParser):
                                           config_file_contents=config_file_contents,
                                           env_vars=env_vars)
 
-    def _parse_args_cap(self, interleaved, args, namespace,
+    def _parse_args_cap(self, intermixed, args, namespace,
                         config_file_contents, env_vars):
         """This is the actual implementation of parse_known_args (with intermixed=False) or
            parse_known_intermixed_args (with intermixed=True).
         """
-        args, argv = self.parse_known_args(
+        args, argv = self._parse_known_args_cap(
+            intermixed=intermixed,
             args=args,
             namespace=namespace,
             config_file_contents=config_file_contents,
@@ -838,7 +839,7 @@ class ArgumentParser(argparse.ArgumentParser):
             ignore_help_args=False)
 
         if argv:
-            self.error(f"unrecognized arguments: {' '.join(argv)}")
+            self._error_may_exit(f"unrecognized arguments: {' '.join(argv)}")
         return args
 
     def insert_args(self, args, extra_args, actions=()):
@@ -1037,7 +1038,7 @@ class ArgumentParser(argparse.ArgumentParser):
             try:
                 config_items = self._config_file_parser.parse(stream)
             except ConfigFileParserException as e:
-                self.error(str(e))
+                self._error_may_exit(str(e))
             finally:
                 with suppress(AttributeError):
                     stream.close()
@@ -1261,7 +1262,7 @@ class ArgumentParser(argparse.ArgumentParser):
                                   for s in t ]
                 # Strip the list representation just to get a display-able value
                 poss_values = str(poss_values).lstrip("[").rstrip("]")
-                self.error(f"Unexpected value for {key}: {value!r}. Expecting {poss_values}")
+                self._error_may_exit(f"Unexpected value for {key}: {value!r}. Expecting {poss_values}")
         elif isinstance(value, list):
             accepts_list_and_has_nargs = action is not None and action.nargs is not None and (
                    isinstance(action, argparse._StoreAction) or isinstance(action, argparse._AppendAction)
@@ -1282,8 +1283,9 @@ class ArgumentParser(argparse.ArgumentParser):
                 for list_elem in value:
                     args.append( str(list_elem) )
             else:
-                self.error(("{} can't be set to a list {!r} unless its action type is changed "
-                            "to 'append' or nargs is set to '*', '+', or > 1").format(key, value))
+                self._error_may_exit(f"{key} can't be set to a list {value!r} unless its action "
+                                     "type is changed to 'append' or nargs is set "
+                                     "to '*', '+', or > 1")
         elif isinstance(value, str):
             args.append(f"{command_line_key}={value}")
         else:
@@ -1379,9 +1381,8 @@ class ArgumentParser(argparse.ArgumentParser):
                         config_file.close()
                     except Exception:
                         pass
-                self.error("Unable to open config file: {!r}. Error: {}".format(
-                    user_config_file, msg
-                ))
+                self._error_may_exit(f"Unable to open config file: {user_config_file!r}. "
+                                     f"Error: {msg}")
 
             config_files += [stream]
 
@@ -1479,6 +1480,15 @@ class ArgumentParser(argparse.ArgumentParser):
         return (super().format_help()
               + ("\n{}\n".format(msg) if msg != "" else ""))
 
+    def _error_may_exit(self, msg):
+        """For situations where the self.exit_on_error flag decides how
+           errors will be processed. Note that some error situations still
+           want to call self.error() directly.
+        """
+        if self.exit_on_error:
+            self.error(msg)
+        else:
+            raise argparse.ArgumentError(None, msg)
 
 def add_argument(self, *args, **kwargs):
     """
