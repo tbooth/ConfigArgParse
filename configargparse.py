@@ -789,6 +789,17 @@ class ArgumentParser(argparse.ArgumentParser):
                 help=write_out_config_file_arg_help_message,
                 is_write_out_config_file_arg=True)
 
+    def get_possible_help_args(self):
+        """Returns ["--help", "-h"] but accounting for prefix_chars
+        """
+        return [ poss_arg for c in self.prefix_chars
+                          for poss_arg in [f"{c}{c}help", f"{c}h"] ]
+
+    def get_possible_double_minus(self):
+        """Returns ["--"] but accounting for prefix_chars
+        """
+        return [ f"{c}{c}" for c in self.prefix_chars ]
+
     def parse_args(self, args = None, namespace = None,
                    config_file_contents = None, env_vars = os.environ):
         """Supports all the same args as the `argparse.ArgumentParser.parse_args()`,
@@ -855,7 +866,7 @@ class ArgumentParser(argparse.ArgumentParser):
         extras_added = False
 
         for a in args:
-            if (not extras_added) and a.startswith('-'):
+            if (not extras_added) and any(a.startswith(c) for c in self.prefix_chars):
                 res.extend(extra_args)
                 extras_added = True
             res.append(a)
@@ -948,13 +959,14 @@ class ArgumentParser(argparse.ArgumentParser):
 
         # See if there is a '--' in the args
         try:
-            double_minus_pos = args.index("--")
+            double_minus_pos = min(idx for idx, arg in enumerate(args)
+                                       if arg in self.get_possible_double_minus())
         except ValueError:
             double_minus_pos = len(args) # ie. last index +1
 
         if ignore_help_args:
             args = [arg for idx, arg in enumerate(args) if
-                        arg not in ("-h", "--help") or idx > double_minus_pos ]
+                        arg not in self.get_possible_help_args() or idx > double_minus_pos ]
 
         # maps a string describing the source (eg. env var) to a settings dict
         # to keep track of where values came from (used by print_values()).
@@ -987,9 +999,8 @@ class ArgumentParser(argparse.ArgumentParser):
                                          if not a.is_positional_arg
                                          and a.env_var
                                          and a.env_var in env_vars
-                                         and not already_on_command_line(args,
-                                                                         a.option_strings,
-                                                                         self.prefix_chars)]
+                                         and not self.already_on_command_line(args,
+                                                                         a.option_strings)]
 
         for action in actions_with_env_var_values:
             key = action.env_var
@@ -1018,7 +1029,7 @@ class ArgumentParser(argparse.ArgumentParser):
         supports_help_arg = any(
             a for a in self._actions if isinstance(a, argparse._HelpAction))
         skip_config_file_parsing = supports_help_arg and (
-            any(arg in ("-h", "--help") for arg in args[:double_minus_pos]) )
+            any(arg in self.get_possible_help_args() for arg in args[:double_minus_pos]) )
 
         # prepare for reading config file(s)
         known_config_keys = {config_key: action for action in self._actions
@@ -1048,15 +1059,13 @@ class ArgumentParser(argparse.ArgumentParser):
             for key, value in config_items.items():
                 if key in known_config_keys:
                     action = known_config_keys[key]
-                    discard_this_key = already_on_command_line(
-                        args, action.option_strings, self.prefix_chars)
+                    discard_this_key = self.already_on_command_line(args, action.option_strings)
                 else:
                     action = None
                     discard_this_key = self._ignore_unknown_config_file_keys or \
-                        already_on_command_line(
-                            args,
-                            [self.get_command_line_key_for_unknown_config_file_setting(key)],
-                            self.prefix_chars)
+                        self.already_on_command_line(
+                                args,
+                                [self.get_command_line_key_for_unknown_config_file_setting(key)])
 
                 if not discard_this_key:
                     config_args += self.convert_item_to_command_line_arg(
@@ -1073,7 +1082,7 @@ class ArgumentParser(argparse.ArgumentParser):
         for action in self._actions:
             cares_about_default_value = (not action.is_positional_arg or
                 action.nargs in [OPTIONAL, ZERO_OR_MORE])
-            if (already_on_command_line(args, action.option_strings, self.prefix_chars) or
+            if (self.already_on_command_line(args, action.option_strings) or
                     not cares_about_default_value or
                     action.default is None or
                     action.default == SUPPRESS or
@@ -1094,6 +1103,7 @@ class ArgumentParser(argparse.ArgumentParser):
             namespace, unknown_args = super().parse_known_intermixed_args(args=args, namespace=namespace)
         else:
             namespace, unknown_args = super().parse_known_args(args=args, namespace=namespace)
+
         # handle any args that have is_write_out_config_file_arg set to true
         # check if the user specified this arg on the commandline
         output_file_paths = [getattr(namespace, a.dest, None) for a in self._actions
@@ -1184,9 +1194,8 @@ class ArgumentParser(argparse.ArgumentParser):
                 for action in self._actions:
                     config_file_keys = self.get_possible_config_keys(action)
                     if config_file_keys and not action.is_positional_arg and \
-                        already_on_command_line(existing_command_line_args,
-                                                action.option_strings,
-                                                self.prefix_chars):
+                        self.already_on_command_line(existing_command_line_args,
+                                                     action.option_strings):
                         value = getattr(parsed_namespace, action.dest, None)
                         if value is not None:
                             if isinstance(value, bool):
@@ -1313,6 +1322,37 @@ class ArgumentParser(argparse.ArgumentParser):
                 keys += [arg[2:], arg] # eg. for '--bla' return ['bla', '--bla']
 
         return keys
+
+    def already_on_command_line(self, existing_args_list, potential_command_line_args):
+        """Utility method for checking if any of the potential_command_line_args is
+        already present in existing_args.
+
+        Returns:
+            bool: already on command line?
+        """
+        prefix_chars = self.prefix_chars
+        arg_names = []
+        for arg_string in existing_args_list:
+            if not arg_string:
+                continue
+            if arg_string in self.get_possible_double_minus():
+                break
+
+            if arg_string[0] in prefix_chars and "=" in arg_string :
+                option_string, explicit_arg = arg_string.split("=", 1)
+                arg_names.append(option_string)
+            elif arg_string[0] in prefix_chars and re.fullmatch(r'[a-zA-Z]+', arg_string[1:]):
+                # Special case for combined single letter args like '-tvaf' or '-vvv'
+                # FIXME: This is hacky and can fail - eg. see
+                #    tests.test_basicuse.TestBasicUseCases.testCounterEnviron2
+                # But a robust fix will mean considering all the other potential_command_line_args
+                arg_names.extend(f"{arg_string[0]}{letter}" for letter in arg_string[1:])
+            else:
+                arg_names.append(arg_string)
+
+        return any(
+            potential_arg in arg_names for potential_arg in potential_command_line_args
+        )
 
     def _open_config_files(self, command_line_args):
         """Tries to parse config file path(s) from within command_line_args.
@@ -1552,36 +1592,6 @@ def add_argument(self, *args, **kwargs):
 
     return action
 
-
-def already_on_command_line(existing_args_list, potential_command_line_args, prefix_chars):
-    """Utility method for checking if any of the potential_command_line_args is
-    already present in existing_args.
-
-    Returns:
-        bool: already on command line?
-    """
-    arg_names = []
-    for arg_string in existing_args_list:
-        if not arg_string:
-            continue
-        if arg_string == "--":
-            break
-
-        if arg_string[0] in prefix_chars and "=" in arg_string :
-            option_string, explicit_arg = arg_string.split("=", 1)
-            arg_names.append(option_string)
-        elif arg_string[0] in prefix_chars and re.fullmatch(r'[a-zA-Z]+', arg_string[1:]):
-            # Special case for combined single letter args like '-tvaf' or '-vvv'
-            # FIXME: This is hacky and can fail - eg. see
-            #    tests.test_basicuse.TestBasicUseCases.testCounterEnviron2
-            # But a robust fix will mean considering all the other potential_command_line_args
-            arg_names.extend(f"{arg_string[0]}{letter}" for letter in arg_string[1:])
-        else:
-            arg_names.append(arg_string)
-
-    return any(
-        potential_arg in arg_names for potential_arg in potential_command_line_args
-    )
 
 # TODO: Update to latest version of pydoctor when https://github.com/twisted/pydoctor/pull/414
 # has been merged such that the alises can be documented automatically.
