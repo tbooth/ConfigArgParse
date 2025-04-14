@@ -32,7 +32,7 @@
       
       <div class="navlinks">
         <span class="navbar-brand">
-          <a href="https://github.com/bw2/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post1+git.e28e4b29</a> <a href="index.html">API Documentation</a>
+          <a href="https://github.com/bw2/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post2+git.7c225680</a> <a href="index.html">API Documentation</a>
         </span>
 
         <a href="moduleIndex.html">
@@ -274,16 +274,6 @@
         
 
         
-            <div class="itemName"><code><a href="#is_boolean_optional_action" class="internal-link" title="configargparse.is_boolean_optional_action">is<wbr></wbr>_boolean<wbr></wbr>_optional<wbr></wbr>_action</a></code>
-            </div>
-        
-
-    </li><li class="">
-        
-        
-        
-
-        
             <div class="itemName"><code><a href="#is_quoted" class="internal-link" title="configargparse.is_quoted">is<wbr></wbr>_quoted</a></code>
             </div>
         
@@ -305,6 +295,16 @@
 
         
             <div class="itemName"><code><a href="#unquote_str" class="internal-link" title="configargparse.unquote_str">unquote<wbr></wbr>_str</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#_is_boolean_optional_action" class="internal-link" title="configargparse._is_boolean_optional_action">_is<wbr></wbr>_boolean<wbr></wbr>_optional<wbr></wbr>_action</a></code>
             </div>
         
 
@@ -344,16 +344,6 @@
 
         
             <div class="itemName"><code><a href="#ACTION_TYPES_THAT_DONT_NEED_A_VALUE" class="internal-link" title="configargparse.ACTION_TYPES_THAT_DONT_NEED_A_VALUE">ACTION<wbr></wbr>_TYPES<wbr></wbr>_THAT<wbr></wbr>_DONT<wbr></wbr>_NEED<wbr></wbr>_A<wbr></wbr>_VALUE</a></code>
-            </div>
-        
-
-    </li><li class="">
-        
-        
-        
-
-        
-            <div class="itemName"><code><a href="#logger" class="internal-link" title="configargparse.logger">logger</a></code>
             </div>
         
 
@@ -423,6 +413,16 @@
         
 
         
+            <div class="itemName"><code><a href="#_logger" class="internal-link" title="configargparse._logger">_logger</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
             <div class="itemName"><code><a href="#_parsers" class="internal-link" title="configargparse._parsers">_parsers</a></code>
             </div>
         
@@ -463,7 +463,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <a href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py" class="sourceLink">(source)</a>
+          <a href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py" class="sourceLink">(source)</a>
           <p></p>
         </div>
 
@@ -548,11 +548,6 @@
   </tr><tr class="function">
     
     <td>Function</td>
-    <td><code><a href="#is_boolean_optional_action" class="internal-link" title="configargparse.is_boolean_optional_action">is<wbr></wbr>_boolean<wbr></wbr>_optional<wbr></wbr>_action</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
-  </tr><tr class="function">
-    
-    <td>Function</td>
     <td><code><a href="#is_quoted" class="internal-link" title="configargparse.is_quoted">is<wbr></wbr>_quoted</a></code></td>
     <td>Detect whether a string is a quoted representation.</td>
   </tr><tr class="function">
@@ -580,10 +575,10 @@
     <td>Variable</td>
     <td><code><a href="#ACTION_TYPES_THAT_DONT_NEED_A_VALUE" class="internal-link" title="configargparse.ACTION_TYPES_THAT_DONT_NEED_A_VALUE">ACTION<wbr></wbr>_TYPES<wbr></wbr>_THAT<wbr></wbr>_DONT<wbr></wbr>_NEED<wbr></wbr>_A<wbr></wbr>_VALUE</a></code></td>
     <td><span class="undocumented">Undocumented</span></td>
-  </tr><tr class="variable">
+  </tr><tr class="function private">
     
-    <td>Variable</td>
-    <td><code><a href="#logger" class="internal-link" title="configargparse.logger">logger</a></code></td>
+    <td>Function</td>
+    <td><code><a href="#_is_boolean_optional_action" class="internal-link" title="configargparse._is_boolean_optional_action">_is<wbr></wbr>_boolean<wbr></wbr>_optional<wbr></wbr>_action</a></code></td>
     <td><span class="undocumented">Undocumented</span></td>
   </tr><tr class="constant private">
     
@@ -618,6 +613,11 @@
   </tr><tr class="variable private">
     
     <td>Variable</td>
+    <td><code><a href="#_logger" class="internal-link" title="configargparse._logger">_logger</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="variable private">
+    
+    <td>Variable</td>
     <td><code><a href="#_parsers" class="internal-link" title="configargparse._parsers">_parsers</a></code></td>
     <td><span class="undocumented">Undocumented</span></td>
   </tr>
@@ -641,7 +641,7 @@
     
     
     <span class="py-keyword">def</span> <span class="py-defname">add_argument</span><span class="function-signature">(self, *args, **kwargs)</span>:
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L1549">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L1549">
       
       (source)
     </a>
@@ -680,7 +680,7 @@ Default: False</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2"
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_argument_parser</span><span class="function-signature">(name=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, **kwargs)</span>:
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L61">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L61">
       
       (source)
     </a>
@@ -710,7 +710,7 @@ ArgumentParser constructor.</p></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_toml_section</span><span class="function-signature">(data, section)</span>:
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L437">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L437">
       
       (source)
     </a>
@@ -738,7 +738,7 @@ Returns <tt class="rst-docutils rst-literal">None</tt> if the section is not fou
     
     
     <span class="py-keyword">def</span> <span class="py-defname">init_argument_parser</span><span class="function-signature">(name=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, **kwargs)</span>:
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L42">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L42">
       
       (source)
     </a>
@@ -757,33 +757,6 @@ This instance can then be retrieved using get_argument_parser(..)</p></div>
 </div><div class="basefunction">
   
   
-  <a name="configargparse.is_boolean_optional_action">
-    
-  </a>
-  <a name="is_boolean_optional_action">
-    
-  </a>
-  <div class="functionHeader">
-    
-    
-    <span class="py-keyword">def</span> <span class="py-defname">is_boolean_optional_action</span><span class="function-signature">(action)</span>:
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L30">
-      
-      (source)
-    </a>
-    <a class="headerLink" href="#is_boolean_optional_action" title="configargparse.is_boolean_optional_action">
-      
-      
-      ¶
-    </a>
-  </div>
-  <div class="docstring functionBody">
-    
-    <div><p class="undocumented">Undocumented</p></div>
-  </div>
-</div><div class="basefunction">
-  
-  
   <a name="configargparse.is_quoted">
     
   </a>
@@ -794,7 +767,7 @@ This instance can then be retrieved using get_argument_parser(..)</p></div>
     
     @<a href="https://docs.python.org/3/library/functools.html#functools.lru_cache" class="intersphinx-link">functools.lru_cache</a>(<wbr></wbr>maxsize=256, <wbr></wbr>typed=<a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>)<br />
     <span class="py-keyword">def</span> <span class="py-defname">is_quoted</span><span class="function-signature">(text, triple=<a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>)</span>:
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L386">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L386">
       
       (source)
     </a>
@@ -821,7 +794,7 @@ This instance can then be retrieved using get_argument_parser(..)</p></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">parse_toml_section_name</span><span class="function-signature">(section_name)</span>:
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L418">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L418">
       
       (source)
     </a>
@@ -854,7 +827,7 @@ This instance can then be retrieved using get_argument_parser(..)</p></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">unquote_str</span><span class="function-signature">(text, triple=<a href="https://docs.python.org/3/library/constants.html#True" class="intersphinx-link">True</a>)</span>:
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L396">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L396">
       
       (source)
     </a>
@@ -882,7 +855,7 @@ It supports all kinds of python quotes: <tt class="rst-docutils rst-literal">"""
   <div class="functionHeader">
     
     <span class="py-defname">STRINGS_THAT_MEAN_NO</span> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L37">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L37">
       
       (source)
     </a>
@@ -909,7 +882,7 @@ It supports all kinds of python quotes: <tt class="rst-docutils rst-literal">"""
   <div class="functionHeader">
     
     <span class="py-defname">STRINGS_THAT_MEAN_YES</span> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L36">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L36">
       
       (source)
     </a>
@@ -936,7 +909,7 @@ It supports all kinds of python quotes: <tt class="rst-docutils rst-literal">"""
   <div class="functionHeader">
     
     <span class="py-defname">ACTION_TYPES_THAT_DONT_NEED_A_VALUE</span> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L22">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L22">
       
       (source)
     </a>
@@ -951,32 +924,32 @@ It supports all kinds of python quotes: <tt class="rst-docutils rst-literal">"""
     <div><p class="undocumented">Undocumented</p></div>
     
   </div>
-</div><div class="basevariable">
+</div><div class="basefunction private">
   
   
-  <a name="configargparse.logger">
+  <a name="configargparse._is_boolean_optional_action">
     
   </a>
-  <a name="logger">
+  <a name="_is_boolean_optional_action">
     
   </a>
   <div class="functionHeader">
     
-    <span class="py-defname">logger</span> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L20">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">_is_boolean_optional_action</span><span class="function-signature">(action)</span>:
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L30">
       
       (source)
     </a>
-    <a class="headerLink" href="#logger" title="configargparse.logger">
+    <a class="headerLink" href="#_is_boolean_optional_action" title="configargparse._is_boolean_optional_action">
       
       
       ¶
     </a>
   </div>
-  <div class="functionBody">
+  <div class="docstring functionBody">
     
     <div><p class="undocumented">Undocumented</p></div>
-    
   </div>
 </div><div class="baseconstant private">
   
@@ -990,7 +963,7 @@ It supports all kinds of python quotes: <tt class="rst-docutils rst-literal">"""
   <div class="functionHeader">
     
     <span class="py-defname">_COMMAND_LINE_SOURCE_KEY</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L680">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L680">
       
       (source)
     </a>
@@ -1017,7 +990,7 @@ It supports all kinds of python quotes: <tt class="rst-docutils rst-literal">"""
   <div class="functionHeader">
     
     <span class="py-defname">_CONFIG_FILE_SOURCE_KEY</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L682">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L682">
       
       (source)
     </a>
@@ -1044,7 +1017,7 @@ It supports all kinds of python quotes: <tt class="rst-docutils rst-literal">"""
   <div class="functionHeader">
     
     <span class="py-defname">_DEFAULTS_SOURCE_KEY</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L683">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L683">
       
       (source)
     </a>
@@ -1071,7 +1044,7 @@ It supports all kinds of python quotes: <tt class="rst-docutils rst-literal">"""
   <div class="functionHeader">
     
     <span class="py-defname">_ENV_VAR_SOURCE_KEY</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L681">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L681">
       
       (source)
     </a>
@@ -1098,7 +1071,7 @@ It supports all kinds of python quotes: <tt class="rst-docutils rst-literal">"""
   <div class="functionHeader">
     
     <span class="py-defname">_QUOTED_STR_REGEX</span> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L377">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L377">
       
       (source)
     </a>
@@ -1125,7 +1098,7 @@ It supports all kinds of python quotes: <tt class="rst-docutils rst-literal">"""
   <div class="functionHeader">
     
     <span class="py-defname">_TRIPLE_QUOTED_STR_REGEX</span> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L380">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L380">
       
       (source)
     </a>
@@ -1146,6 +1119,33 @@ $<span class="rst-re-group">)</span><span class="rst-variable-quote">'</span>,
 </div><div class="basevariable private">
   
   
+  <a name="configargparse._logger">
+    
+  </a>
+  <a name="_logger">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">_logger</span> =
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L20">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#_logger" title="configargparse._logger">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="functionBody">
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="basevariable private">
+  
+  
   <a name="configargparse._parsers">
     
   </a>
@@ -1155,7 +1155,7 @@ $<span class="rst-re-group">)</span><span class="rst-variable-quote">'</span>,
   <div class="functionHeader">
     
     <span class="py-defname">_parsers</span>: <code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code> =
-    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/e28e4b2964a0bd82e4348cbf2e384a2bf385773e/configargparse.py#L40">
+    <a class="sourceLink" href="https://github.com/bw2/ConfigArgParse/tree/7c225680f82325c854a38c2e5a2dc67fdcb2201a/configargparse.py#L40">
       
       (source)
     </a>
@@ -1180,9 +1180,9 @@ $<span class="rst-re-group">)</span><span class="rst-variable-quote">'</span>,
 
   
   <div class="container-fluid">
-    <a href="index.html">API Documentation</a> for <a href="https://github.com/bw2/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post1+git.e28e4b29</a>,
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/bw2/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post2+git.7c225680</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    24.11.2 at 2025-04-14 14:42:07.
+    24.11.2 at 2025-04-14 14:54:03.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 
