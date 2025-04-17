@@ -121,43 +121,44 @@ class ConfigFileParser:
         """
         raise NotImplementedError("serialize(..) not implemented")
 
-    def _tweak_value(self, key, value):
+    def _tweak_value(self, key, value, filename):
         """Ensure that all tweaked values really are strings, or list of strings,
            or none, in order to update the collection of values.
         """
-        value = self.tweak_value(key, value)
+        # Call the function designed to be overridden in subclass.
+        tweaked_dict = self.tweak_value(key, value, filename)
 
         # Seems a little weird, but anything that is not a list is converted to string,
         # It will be converted back to boolean, int or whatever after.
         # Because config values are still passed to argparser for computation.
-        if value is None:
-            return {}
-        elif isinstance(value, list):
-            # We allow lists of strings, or, for compatibility with action="append",
-            # lists of lists of strings.
-            if all(isinstance(v, list) for v in value):
-                return {key: [[str(v) for v in sublist] for sublist in value]}
+        for newkey, newvalue in tweaked_dict.items():
+            if newvalue is None:
+                pass
+            elif isinstance(newvalue, list):
+                # We allow lists of strings, or, for compatibility with action="append",
+                # lists of lists of strings.
+                if all(isinstance(v, list) for v in newvalue):
+                    yield newkey, [[str(v) for v in sublist] for sublist in newvalue]
+                else:
+                    yield newkey, [str(v) for v in newvalue]
             else:
-                return {key: [str(v) for v in value]}
-        else:
-            return {key: str(value)}
+                yield newkey, str(newvalue)
 
-    def tweak_value(self, key, value):
+    def tweak_value(self, key, value, filename):
         """This function may be overridden in custom ConfigFileParser subclasses
         to allow for modification or values or other side effects when a value is
         found in a config file.
 
-        Function may return a list, or None to skip the item, or anything else will be
-        turned into a string.
+        Your function must return a dict. The default return value is simply:
+            {key: value}
+
+        You may add more items to set config values other than original key.
+        The returned dict value should be a list, or None to skip the item, or anything else
+        will be turned into a string.
         """
 
-        # FIXME - we have two issues (right now).
-        # 1 - the key may or may not include the "-" or "--" prefix
-        # 2 - we can only modify or skip the value which does not help with my scenario 3
-        # I think we can leave 1 up to the user, but we need to resolve 2.
-
         # Default version simply returns the value unmodified
-        return value
+        return {key: value}
 
 class ConfigFileParserException(Exception):
     """Raised when config file parsing failed."""
@@ -199,7 +200,8 @@ class DefaultConfigFileParser(ConfigFileParser):
         return msg
 
     def parse(self, stream):
-       # see ConfigFileParser.parse docstring
+        # see ConfigFileParser.parse docstring
+        filename = getattr(stream, 'name', None)
 
         items = OrderedDict()
         for i, line in enumerate(stream):
@@ -229,10 +231,10 @@ class DefaultConfigFileParser(ConfigFileParser):
                         value = [elem.strip() for elem in value[1:-1].split(",")]
 
                 # Allow for post-modification of values by subclass
-                items.update(self._tweak_value(key, value))
+                items.update(self._tweak_value(key, value, filename))
             else:
                 raise ConfigFileParserException("Unexpected line {} in {}: {}".format(i,
-                    getattr(stream, 'name', 'stream'), line))
+                    filename or 'stream', line))
         return items
 
     def serialize(self, items):
@@ -270,6 +272,7 @@ class ConfigparserConfigFileParser(ConfigFileParser):
         # see ConfigFileParser.parse docstring
         import configparser
         from ast import literal_eval
+        filename = getattr(stream, 'name', None)
         # parse with configparser to allow multi-line values
         config = configparser.ConfigParser(
             delimiters=("=",":"),
@@ -295,7 +298,7 @@ class ConfigparserConfigFileParser(ConfigFileParser):
                     prelist_string = multiLine2SingleLine.split('[')[0]
                     if '{' not in prelist_string:
                         multiLine2SingleLine = literal_eval(multiLine2SingleLine)
-                result.update(self._tweak_value(key, multiLine2SingleLine))
+                result.update(self._tweak_value(key, multiLine2SingleLine, filename))
         return result
 
     def serialize(self, items):
@@ -347,6 +350,7 @@ class YAMLConfigFileParser(ConfigFileParser):
     def parse(self, stream):
         # see ConfigFileParser.parse docstring
         yaml, SafeLoader, _ = self._load_yaml()
+        filename = getattr(stream, 'name', None)
 
         try:
             parsed_obj = yaml.load(stream, Loader=SafeLoader)
@@ -357,13 +361,13 @@ class YAMLConfigFileParser(ConfigFileParser):
             raise ConfigFileParserException("The config file doesn't appear to "
                 "contain 'key: value' pairs (aka. a YAML mapping). "
                 "yaml.load({!r}) returned type {!r} instead of 'dict'.".format(
-                getattr(stream, 'name', 'stream'),  type(parsed_obj).__name__))
+                filename or 'stream',  type(parsed_obj).__name__))
 
         result = OrderedDict()
         for key, value in parsed_obj.items():
 
             # Allow for subclasses to tweak the values
-            result.update(self._tweak_value(key, value))
+            result.update(self._tweak_value(key, value, filename))
 
         return result
 
@@ -528,6 +532,7 @@ class TomlConfigParser(ConfigFileParser):
         """Parses the keys and values from a TOML config file."""
         # parse with configparser to allow multi-line values
         import toml
+        filename = getattr(stream, 'name', None)
         try:
             config = toml.load(stream)
         except Exception as e:
@@ -540,7 +545,7 @@ class TomlConfigParser(ConfigFileParser):
             data = get_toml_section(config, section)
             if data:
                 for key, value in data.items():
-                    result.update(self._tweak_value(key, value))
+                    result.update(self._tweak_value(key, value, filename))
 
                 # once we found the data, no need to look further
                 break
