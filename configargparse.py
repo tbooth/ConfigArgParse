@@ -150,6 +150,12 @@ class ConfigFileParser(object):
         Function may return a list, or None to skip the item, or anything else will be
         turned into a string.
         """
+
+        # FIXME - we have two issues (right now).
+        # 1 - the key may or may not include the "-" or "--" prefix
+        # 2 - we can only modify or skip the value which does not help with my scenario 3
+        # I think we can leave 1 up to the user, but we need to resolve 2.
+
         # Default version simply returns the value unmodified
         return value
 
@@ -1298,8 +1304,6 @@ class ArgumentParser(argparse.ArgumentParser):
                 self._error_may_exit(f"Unexpected value for {key}: {value!r}. Expecting {poss_values}")
         elif isinstance(value, list):
             accepts_list_and_has_nargs = action is not None and action.nargs is not None and (
-                   isinstance(action, argparse._StoreAction) or isinstance(action, argparse._AppendAction)
-            ) and (
                 action.nargs in ('+', '*') or (isinstance(action.nargs, int) and action.nargs > 1)
             )
 
