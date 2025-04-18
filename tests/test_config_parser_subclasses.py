@@ -216,7 +216,7 @@ def demo_recursive_config():
     ap = configargparse.ArgumentParser( config_file_parser_class =
                                             RecursiveConfigFileParser("config") )
 
-    ap.add_argument("--config", type=Path, is_config_file=True)
+    ap.add_argument("--config", type=Path, nargs="*", is_config_file=True)
     ap.add_argument('--arg_0', type=str)
     ap.add_argument('--arg_1', type=str)
     ap.add_argument('--arg_2', type=str)
