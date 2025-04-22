@@ -4,12 +4,7 @@ import unittest
 from io import StringIO
 import logging
 
-try:
-    import yaml
-except ModuleNotFoundError:
-    logging.warning("PyYAML not installed. Cannot test YAMLConfigFileParser")
-
-from tests.test_base import TestCase
+from tests.test_base import TestCase, yaml
 
 class TestConfigFileParsers(TestCase):
     """Test ConfigFileParser subclasses in isolation"""
@@ -312,7 +307,7 @@ class TestConfigFileParsers(TestCase):
             self.assertDictEqual(parsed_obj, expected,
                     msg="Line %r" % (test['line']))
 
-    @unittest.skipUnless("yaml" in globals(), "PyYAML not installed")
+    @unittest.skipUnless(yaml, "PyYAML not installed")
     def testYAMLConfigFileParser_Basic(self):
 
         p = configargparse.YAMLConfigFileParser()
@@ -326,7 +321,7 @@ class TestConfigFileParsers(TestCase):
 
         self.assertDictEqual(parsed_obj, {'a': '3'})
 
-    @unittest.skipUnless("yaml" in globals(), "PyYAML not installed")
+    @unittest.skipUnless(yaml, "PyYAML not installed")
     def testYAMLConfigFileParser_All(self):
 
         p = configargparse.YAMLConfigFileParser()
@@ -350,7 +345,7 @@ class TestConfigFileParsers(TestCase):
 
         self.assertDictEqual(parsed_obj, {'a': '3', 'list_arg': ['1','2','3']})
 
-    @unittest.skipUnless("yaml" in globals(), "PyYAML not installed")
+    @unittest.skipUnless(yaml, "PyYAML not installed")
     def testYAMLConfigFileParser_w_ArgumentParser_parsed_values(self):
 
         parser = configargparse.ArgumentParser(config_file_parser_class=configargparse.YAMLConfigFileParser)
