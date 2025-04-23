@@ -32,7 +32,7 @@
       
       <div class="navlinks">
         <span class="navbar-brand">
-          <a href="https://github.com/tbooth/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post4+git.f880326d</a> <a href="index.html">API Documentation</a>
+          <a href="https://github.com/tbooth/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post25+git.c12a22fb</a> <a href="index.html">API Documentation</a>
         </span>
 
         <a href="moduleIndex.html">
@@ -152,6 +152,26 @@
 
         
             <div class="itemName"><code><a href="#serialize" class="internal-link" title="configargparse.ConfigFileParser.serialize">serialize</a></code>
+            </div>
+        
+
+    </li><li class="">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#tweak_value" class="internal-link" title="configargparse.ConfigFileParser.tweak_value">tweak<wbr></wbr>_value</a></code>
+            </div>
+        
+
+    </li><li class="private">
+        
+        
+        
+
+        
+            <div class="itemName"><code><a href="#_tweak_value" class="internal-link" title="configargparse.ConfigFileParser._tweak_value">_tweak<wbr></wbr>_value</a></code>
             </div>
         
 
@@ -525,7 +545,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">ConfigFileParser</span>(<a href="https://docs.python.org/3/library/functions.html#object" class="intersphinx-link">object</a>): <a href="https://github.com/tbooth/ConfigArgParse/tree/f880326d0a3b38136e69a0a5a7b2bcdd4915e3eb/configargparse.py#L84" class="sourceLink">(source)</a></code></p><p>Known subclasses: <code><a href="configargparse.CompositeConfigParser.html" class="internal-link">configargparse.CompositeConfigParser</a></code>, <code><a href="configargparse.ConfigparserConfigFileParser.html" class="internal-link">configargparse.ConfigparserConfigFileParser</a></code>, <code><a href="configargparse.DefaultConfigFileParser.html" class="internal-link">configargparse.DefaultConfigFileParser</a></code>, <code><a href="configargparse.IniConfigParser.html" class="internal-link">configargparse.IniConfigParser</a></code>, <code><a href="configargparse.TomlConfigParser.html" class="internal-link">configargparse.TomlConfigParser</a></code>, <code><a href="configargparse.YAMLConfigFileParser.html" class="internal-link">configargparse.YAMLConfigFileParser</a></code></p>
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">ConfigFileParser</span>: <a href="https://github.com/tbooth/ConfigArgParse/tree/c12a22fbc748cb1a304e38be7ab96d0677f0b543/configargparse.py#L84" class="sourceLink">(source)</a></code></p><p>Known subclasses: <code><a href="configargparse.CompositeConfigParser.html" class="internal-link">configargparse.CompositeConfigParser</a></code>, <code><a href="configargparse.ConfigparserConfigFileParser.html" class="internal-link">configargparse.ConfigparserConfigFileParser</a></code>, <code><a href="configargparse.DefaultConfigFileParser.html" class="internal-link">configargparse.DefaultConfigFileParser</a></code>, <code><a href="configargparse.IniConfigParser.html" class="internal-link">configargparse.IniConfigParser</a></code>, <code><a href="configargparse.TomlConfigParser.html" class="internal-link">configargparse.TomlConfigParser</a></code>, <code><a href="configargparse.YAMLConfigFileParser.html" class="internal-link">configargparse.YAMLConfigFileParser</a></code></p>
           <p><a href="classIndex.html#configargparse.ConfigFileParser">View In Hierarchy</a></p>
         </div>
 
@@ -553,6 +573,16 @@ formats</p></div>
     <td>Method</td>
     <td><code><a href="#serialize" class="internal-link" title="configargparse.ConfigFileParser.serialize">serialize</a></code></td>
     <td>Does the inverse of config parsing by taking parsed values and converting them back to a string representing config file contents.</td>
+  </tr><tr class="method">
+    
+    <td>Method</td>
+    <td><code><a href="#tweak_value" class="internal-link" title="configargparse.ConfigFileParser.tweak_value">tweak<wbr></wbr>_value</a></code></td>
+    <td>This function may be overridden in custom ConfigFileParser subclasses to allow for modification or values or other side effects when a value is found in a config file.</td>
+  </tr><tr class="method private">
+    
+    <td>Method</td>
+    <td><code><a href="#_tweak_value" class="internal-link" title="configargparse.ConfigFileParser._tweak_value">_tweak<wbr></wbr>_value</a></code></td>
+    <td>Ensure that all tweaked values really are strings, or list of strings, or none, in order to update the collection of values.</td>
   </tr>
 </table>
           
@@ -574,7 +604,7 @@ formats</p></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">get_syntax_description</span><span class="function-signature">(self)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/f880326d0a3b38136e69a0a5a7b2bcdd4915e3eb/configargparse.py#L88">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/c12a22fbc748cb1a304e38be7ab96d0677f0b543/configargparse.py#L88">
       
       (source)
     </a>
@@ -601,7 +631,7 @@ formats</p></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">parse</span><span class="function-signature">(self, stream)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/f880326d0a3b38136e69a0a5a7b2bcdd4915e3eb/configargparse.py#L92">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/c12a22fbc748cb1a304e38be7ab96d0677f0b543/configargparse.py#L92">
       
       (source)
     </a>
@@ -638,7 +668,7 @@ formats like YAML which allow lists).</td></tr></table></div>
     
     
     <span class="py-keyword">def</span> <span class="py-defname">serialize</span><span class="function-signature">(self, items)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/f880326d0a3b38136e69a0a5a7b2bcdd4915e3eb/configargparse.py#L110">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/c12a22fbc748cb1a304e38be7ab96d0677f0b543/configargparse.py#L110">
       
       (source)
     </a>
@@ -655,6 +685,71 @@ converting them back to a string representing config file contents.</p><table cl
 format. Keys should be strings, and values should be either strings
 or lists.</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td colspan="2">Contents of config file as a string</td></tr></table></div>
   </div>
+</div><div class="basemethod">
+  
+  
+  <a name="configargparse.ConfigFileParser.tweak_value">
+    
+  </a>
+  <a name="tweak_value">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">tweak_value</span><span class="function-signature">(self, key, value, filename)</span>:
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/c12a22fbc748cb1a304e38be7ab96d0677f0b543/configargparse.py#L147">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#tweak_value" title="configargparse.ConfigFileParser.tweak_value">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>This function may be overridden in custom ConfigFileParser subclasses
+to allow for modification or values or other side effects when a value is
+found in a config file.</p>
+<dl class="rst-docutils">
+<dt>Your function must return a dict. The default return value is simply:</dt>
+<dd>{key: value}</dd>
+</dl>
+<p>You may add more items to set config values other than original key.
+The returned dict value should be a list, or None to skip the item, or anything else
+will be turned into a string.</p>
+</div>
+  </div>
+</div><div class="basemethod private">
+  
+  
+  <a name="configargparse.ConfigFileParser._tweak_value">
+    
+  </a>
+  <a name="_tweak_value">
+    
+  </a>
+  <div class="functionHeader">
+    
+    
+    <span class="py-keyword">def</span> <span class="py-defname">_tweak_value</span><span class="function-signature">(self, key, value, filename)</span>:
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/c12a22fbc748cb1a304e38be7ab96d0677f0b543/configargparse.py#L124">
+      
+      (source)
+    </a>
+    <a class="headerLink" href="#_tweak_value" title="configargparse.ConfigFileParser._tweak_value">
+      
+      
+      ¶
+    </a>
+  </div>
+  <div class="docstring functionBody">
+    
+    <div><p>Ensure that all tweaked values really are strings, or list of strings,
+or none, in order to update the collection of values.</p></div>
+  </div>
 </div>
         </div>
       
@@ -665,9 +760,9 @@ or lists.</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Retu
 
   
   <div class="container-fluid">
-    <a href="index.html">API Documentation</a> for <a href="https://github.com/tbooth/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post4+git.f880326d</a>,
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/tbooth/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post25+git.c12a22fb</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    24.11.2 at 2025-04-14 15:09:27.
+    24.11.2 at 2025-04-23 15:09:49.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 

@@ -28,7 +28,7 @@
       
       <div class="navlinks">
         <span class="navbar-brand">
-          <a href="https://github.com/tbooth/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post4+git.f880326d</a> <a href="index.html">API Documentation</a>
+          <a href="https://github.com/tbooth/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post25+git.c12a22fb</a> <a href="index.html">API Documentation</a>
         </span>
 
         <a href="moduleIndex.html">
@@ -2156,6 +2156,22 @@
             <div class="kind">Method</div>
             <div class="privacy">PUBLIC</div>
             <div class="summary">Does the inverse of config parsing by taking parsed values and converting them back to a string representing config file contents.</div>
+          </li><li id="configargparse.ConfigFileParser._tweak_value">
+            
+            <div class="fullName">configargparse<wbr></wbr>.<wbr></wbr>Config<wbr></wbr>File<wbr></wbr>Parser<wbr></wbr>._tweak<wbr></wbr>_value</div>
+            <div class="url">configargparse.ConfigFileParser.html#_tweak_value</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PRIVATE</div>
+            <div class="summary">Ensure that all tweaked values really are strings, or list of strings, or none, in order to update the collection of values.</div>
+          </li><li id="configargparse.ConfigFileParser.tweak_value">
+            
+            <div class="fullName">configargparse<wbr></wbr>.<wbr></wbr>Config<wbr></wbr>File<wbr></wbr>Parser<wbr></wbr>.tweak<wbr></wbr>_value</div>
+            <div class="url">configargparse.ConfigFileParser.html#tweak_value</div>
+            <div class="type">Function</div>
+            <div class="kind">Method</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary">This function may be overridden in custom ConfigFileParser subclasses to allow for modification or values or other side effects when a value is found in a config file.</div>
           </li><li id="configargparse.ConfigFileParserException">
             
             <div class="fullName">configargparse<wbr></wbr>.<wbr></wbr>Config<wbr></wbr>File<wbr></wbr>Parser<wbr></wbr>Exception</div>
@@ -2548,6 +2564,14 @@
             <div class="kind">Instance Variable</div>
             <div class="privacy">PRIVATE</div>
             <div class="summary"><span class="undocumented">Undocumented</span></div>
+          </li><li id="configargparse.ArgumentParser.last_parsed_args">
+            
+            <div class="fullName">configargparse<wbr></wbr>.<wbr></wbr>Argument<wbr></wbr>Parser<wbr></wbr>.last<wbr></wbr>_parsed<wbr></wbr>_args</div>
+            <div class="url">configargparse.ArgumentParser.html#last_parsed_args</div>
+            <div class="type">Attribute</div>
+            <div class="kind">Instance Variable</div>
+            <div class="privacy">PUBLIC</div>
+            <div class="summary"><span class="undocumented">Undocumented</span></div>
           </li><li id="configargparse.ArgumentParser._config_file_parser">
             
             <div class="fullName">configargparse<wbr></wbr>.<wbr></wbr>Argument<wbr></wbr>Parser<wbr></wbr>._config<wbr></wbr>_file<wbr></wbr>_parser</div>
@@ -2579,7 +2603,7 @@
             <div class="type">Function</div>
             <div class="kind">Method</div>
             <div class="privacy">PUBLIC</div>
-            <div class="summary">Returns ["--help", "-h"] but accounting for prefix_chars</div>
+            <div class="summary">Returns eg. ["--help", "-h"] but accounting for custom setup</div>
           </li><li id="configargparse.ArgumentParser.get_possible_double_minus">
             
             <div class="fullName">configargparse<wbr></wbr>.<wbr></wbr>Argument<wbr></wbr>Parser<wbr></wbr>.get<wbr></wbr>_possible<wbr></wbr>_double<wbr></wbr>_minus</div>
@@ -2611,7 +2635,7 @@
             <div class="type">Function</div>
             <div class="kind">Method</div>
             <div class="privacy">PRIVATE</div>
-            <div class="summary">This is the actual implementation of parse_known_args (with intermixed=False) or parse_known_intermixed_args (with intermixed=True).</div>
+            <div class="summary">This is the actual implementation of parse_args (with intermixed=False) or parse_intermixed_args (with intermixed=True).</div>
           </li><li id="configargparse.ArgumentParser.insert_args">
             
             <div class="fullName">configargparse<wbr></wbr>.<wbr></wbr>Argument<wbr></wbr>Parser<wbr></wbr>.insert<wbr></wbr>_args</div>
