@@ -7,7 +7,7 @@
   <head>
     
     <title>configargparse.ArgumentParser</title>
-    <meta name="generator" content="pydoctor 24.11.2"> 
+    <meta name="generator" content="pydoctor 25.4.0"> 
         
     </meta>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -32,7 +32,7 @@
       
       <div class="navlinks">
         <span class="navbar-brand">
-          <a href="https://github.com/tbooth/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post28+git.206a917f</a> <a href="index.html">API Documentation</a>
+          <a href="https://github.com/tbooth/ConfigArgParse" class="projecthome">ConfigArgParse 1.5.7.post81+git.6205e84b</a> <a href="index.html">API Documentation</a>
         </span>
 
         <a href="moduleIndex.html">
@@ -331,7 +331,7 @@
         
 
         
-            <div class="itemName"><code><a href="#_parse_args_cap" class="internal-link" title="configargparse.ArgumentParser._parse_args_cap">_parse<wbr></wbr>_args<wbr></wbr>_cap</a></code>
+            <div class="itemName"><code><a href="#_parse_args_impl" class="internal-link" title="configargparse.ArgumentParser._parse_args_impl">_parse<wbr></wbr>_args<wbr></wbr>_impl</a></code>
             </div>
         
 
@@ -341,7 +341,7 @@
         
 
         
-            <div class="itemName"><code><a href="#_parse_known_args_cap" class="internal-link" title="configargparse.ArgumentParser._parse_known_args_cap">_parse<wbr></wbr>_known<wbr></wbr>_args<wbr></wbr>_cap</a></code>
+            <div class="itemName"><code><a href="#_parse_known_args_impl" class="internal-link" title="configargparse.ArgumentParser._parse_known_args_impl">_parse<wbr></wbr>_known<wbr></wbr>_args<wbr></wbr>_impl</a></code>
             </div>
         
 
@@ -1474,7 +1474,7 @@
         </div>
 
         <div class="extrasDocstring">
-          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">ArgumentParser</span>(<a href="argparse.ArgumentParser.html" class="internal-link" title="argparse.ArgumentParser">argparse.ArgumentParser</a>): <a href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L716" class="sourceLink">(source)</a></code></p><p>Constructor: <code><a href="#__init__" class="internal-link" title="configargparse.ArgumentParser.__init__">ArgumentParser(*args, **kwargs)</a></code></p>
+          <p class="class-signature"><code><span class="py-keyword">class</span> <span class="py-defname">ArgumentParser</span>(<a href="argparse.ArgumentParser.html" class="internal-link" title="argparse.ArgumentParser">argparse.ArgumentParser</a>): <a href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L779" class="sourceLink">(source)</a></code></p><p>Constructor: <code><a href="#__init__" class="internal-link" title="configargparse.ArgumentParser.__init__">ArgumentParser(*args, **kwargs)</a></code></p>
           <p><a href="classIndex.html#configargparse.ArgumentParser">View In Hierarchy</a></p>
         </div>
 
@@ -1506,7 +1506,7 @@ environment variables and <tt class="rst-docutils rst-literal">.ini</tt> or <tt 
     
     <td>Method</td>
     <td><code><a href="#format_help" class="internal-link" title="configargparse.ArgumentParser.format_help">format<wbr></wbr>_help</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="method">
     
     <td>Method</td>
@@ -1581,7 +1581,7 @@ environment variables and <tt class="rst-docutils rst-literal">.ini</tt> or <tt 
     
     <td>Instance Variable</td>
     <td><code><a href="#last_parsed_args" class="internal-link" title="configargparse.ArgumentParser.last_parsed_args">last<wbr></wbr>_parsed<wbr></wbr>_args</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="method private">
     
     <td>Method</td>
@@ -1595,53 +1595,53 @@ environment variables and <tt class="rst-docutils rst-literal">.ini</tt> or <tt 
   </tr><tr class="method private">
     
     <td>Method</td>
-    <td><code><a href="#_parse_args_cap" class="internal-link" title="configargparse.ArgumentParser._parse_args_cap">_parse<wbr></wbr>_args<wbr></wbr>_cap</a></code></td>
+    <td><code><a href="#_parse_args_impl" class="internal-link" title="configargparse.ArgumentParser._parse_args_impl">_parse<wbr></wbr>_args<wbr></wbr>_impl</a></code></td>
     <td>This is the actual implementation of parse_args (with intermixed=False) or parse_intermixed_args (with intermixed=True).</td>
   </tr><tr class="method private">
     
     <td>Method</td>
-    <td><code><a href="#_parse_known_args_cap" class="internal-link" title="configargparse.ArgumentParser._parse_known_args_cap">_parse<wbr></wbr>_known<wbr></wbr>_args<wbr></wbr>_cap</a></code></td>
+    <td><code><a href="#_parse_known_args_impl" class="internal-link" title="configargparse.ArgumentParser._parse_known_args_impl">_parse<wbr></wbr>_known<wbr></wbr>_args<wbr></wbr>_impl</a></code></td>
     <td>This is the actual implementation of parse_known_args (with intermixed=False) or parse_known_intermixed_args (with intermixed=True).</td>
   </tr><tr class="instancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="#_add_config_file_help" class="internal-link" title="configargparse.ArgumentParser._add_config_file_help">_add<wbr></wbr>_config<wbr></wbr>_file<wbr></wbr>_help</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="instancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="#_add_env_var_help" class="internal-link" title="configargparse.ArgumentParser._add_env_var_help">_add<wbr></wbr>_env<wbr></wbr>_var<wbr></wbr>_help</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="instancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="#_auto_env_var_prefix" class="internal-link" title="configargparse.ArgumentParser._auto_env_var_prefix">_auto<wbr></wbr>_env<wbr></wbr>_var<wbr></wbr>_prefix</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="instancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="#_config_file_open_func" class="internal-link" title="configargparse.ArgumentParser._config_file_open_func">_config<wbr></wbr>_file<wbr></wbr>_open<wbr></wbr>_func</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="instancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="#_config_file_parser" class="internal-link" title="configargparse.ArgumentParser._config_file_parser">_config<wbr></wbr>_file<wbr></wbr>_parser</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="instancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="#_default_config_files" class="internal-link" title="configargparse.ArgumentParser._default_config_files">_default<wbr></wbr>_config<wbr></wbr>_files</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="instancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="#_ignore_unknown_config_file_keys" class="internal-link" title="configargparse.ArgumentParser._ignore_unknown_config_file_keys">_ignore<wbr></wbr>_unknown<wbr></wbr>_config<wbr></wbr>_file<wbr></wbr>_keys</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="instancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="#_source_to_settings" class="internal-link" title="configargparse.ArgumentParser._source_to_settings">_source<wbr></wbr>_to<wbr></wbr>_settings</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr>
 </table>
           
@@ -1655,12 +1655,12 @@ environment variables and <tt class="rst-docutils rst-literal">.ini</tt> or <tt 
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#add_subparsers" class="internal-link" title="argparse.ArgumentParser.add_subparsers">add<wbr></wbr>_subparsers</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#convert_arg_line_to_args" class="internal-link" title="argparse.ArgumentParser.convert_arg_line_to_args">convert<wbr></wbr>_arg<wbr></wbr>_line<wbr></wbr>_to<wbr></wbr>_args</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod">
     
     <td>Method</td>
@@ -1670,167 +1670,167 @@ environment variables and <tt class="rst-docutils rst-literal">.ini</tt> or <tt 
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#exit" class="internal-link" title="argparse.ArgumentParser.exit">exit</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#format_usage" class="internal-link" title="argparse.ArgumentParser.format_usage">format<wbr></wbr>_usage</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#print_help" class="internal-link" title="argparse.ArgumentParser.print_help">print<wbr></wbr>_help</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#print_usage" class="internal-link" title="argparse.ArgumentParser.print_usage">print<wbr></wbr>_usage</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#add_help" class="internal-link" title="argparse.ArgumentParser.add_help">add<wbr></wbr>_help</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#allow_abbrev" class="internal-link" title="argparse.ArgumentParser.allow_abbrev">allow<wbr></wbr>_abbrev</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#epilog" class="internal-link" title="argparse.ArgumentParser.epilog">epilog</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#exit_on_error" class="internal-link" title="argparse.ArgumentParser.exit_on_error">exit<wbr></wbr>_on<wbr></wbr>_error</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#formatter_class" class="internal-link" title="argparse.ArgumentParser.formatter_class">formatter<wbr></wbr>_class</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#fromfile_prefix_chars" class="internal-link" title="argparse.ArgumentParser.fromfile_prefix_chars">fromfile<wbr></wbr>_prefix<wbr></wbr>_chars</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#prog" class="internal-link" title="argparse.ArgumentParser.prog">prog</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#usage" class="internal-link" title="argparse.ArgumentParser.usage">usage</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_add_action" class="internal-link" title="argparse.ArgumentParser._add_action">_add<wbr></wbr>_action</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_check_value" class="internal-link" title="argparse.ArgumentParser._check_value">_check<wbr></wbr>_value</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_get_formatter" class="internal-link" title="argparse.ArgumentParser._get_formatter">_get<wbr></wbr>_formatter</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_get_kwargs" class="internal-link" title="argparse.ArgumentParser._get_kwargs">_get<wbr></wbr>_kwargs</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_get_nargs_pattern" class="internal-link" title="argparse.ArgumentParser._get_nargs_pattern">_get<wbr></wbr>_nargs<wbr></wbr>_pattern</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_get_option_tuples" class="internal-link" title="argparse.ArgumentParser._get_option_tuples">_get<wbr></wbr>_option<wbr></wbr>_tuples</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_get_optional_actions" class="internal-link" title="argparse.ArgumentParser._get_optional_actions">_get<wbr></wbr>_optional<wbr></wbr>_actions</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_get_positional_actions" class="internal-link" title="argparse.ArgumentParser._get_positional_actions">_get<wbr></wbr>_positional<wbr></wbr>_actions</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_get_value" class="internal-link" title="argparse.ArgumentParser._get_value">_get<wbr></wbr>_value</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_get_values" class="internal-link" title="argparse.ArgumentParser._get_values">_get<wbr></wbr>_values</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_match_argument" class="internal-link" title="argparse.ArgumentParser._match_argument">_match<wbr></wbr>_argument</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_match_arguments_partial" class="internal-link" title="argparse.ArgumentParser._match_arguments_partial">_match<wbr></wbr>_arguments<wbr></wbr>_partial</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_parse_known_args" class="internal-link" title="argparse.ArgumentParser._parse_known_args">_parse<wbr></wbr>_known<wbr></wbr>_args</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_parse_known_args2" class="internal-link" title="argparse.ArgumentParser._parse_known_args2">_parse<wbr></wbr>_known<wbr></wbr>_args2</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_parse_optional" class="internal-link" title="argparse.ArgumentParser._parse_optional">_parse<wbr></wbr>_optional</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_print_message" class="internal-link" title="argparse.ArgumentParser._print_message">_print<wbr></wbr>_message</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_read_args_from_files" class="internal-link" title="argparse.ArgumentParser._read_args_from_files">_read<wbr></wbr>_args<wbr></wbr>_from<wbr></wbr>_files</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse.ArgumentParser.html#_warning" class="internal-link" title="argparse.ArgumentParser._warning">_warning</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#_optionals" class="internal-link" title="argparse.ArgumentParser._optionals">_optionals</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#_positionals" class="internal-link" title="argparse.ArgumentParser._positionals">_positionals</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse.ArgumentParser.html#_subparsers" class="internal-link" title="argparse.ArgumentParser._subparsers">_subparsers</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr>
 </table>
             
@@ -1844,12 +1844,12 @@ environment variables and <tt class="rst-docutils rst-literal">.ini</tt> or <tt 
     
     <td>Method</td>
     <td><code><a href="argparse._AttributeHolder.html#__repr__" class="internal-link" title="argparse._AttributeHolder.__repr__">__repr__</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._AttributeHolder.html#_get_args" class="internal-link" title="argparse._AttributeHolder._get_args">_get<wbr></wbr>_args</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr>
 </table>
             
@@ -1868,137 +1868,137 @@ environment variables and <tt class="rst-docutils rst-literal">.ini</tt> or <tt 
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#add_argument_group" class="internal-link" title="argparse._ActionsContainer.add_argument_group">add<wbr></wbr>_argument<wbr></wbr>_group</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#add_mutually_exclusive_group" class="internal-link" title="argparse._ActionsContainer.add_mutually_exclusive_group">add<wbr></wbr>_mutually<wbr></wbr>_exclusive<wbr></wbr>_group</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#get_default" class="internal-link" title="argparse._ActionsContainer.get_default">get<wbr></wbr>_default</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#register" class="internal-link" title="argparse._ActionsContainer.register">register</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#set_defaults" class="internal-link" title="argparse._ActionsContainer.set_defaults">set<wbr></wbr>_defaults</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#argument_default" class="internal-link" title="argparse._ActionsContainer.argument_default">argument<wbr></wbr>_default</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#conflict_handler" class="internal-link" title="argparse._ActionsContainer.conflict_handler">conflict<wbr></wbr>_handler</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#description" class="internal-link" title="argparse._ActionsContainer.description">description</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#prefix_chars" class="internal-link" title="argparse._ActionsContainer.prefix_chars">prefix<wbr></wbr>_chars</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#_add_container_actions" class="internal-link" title="argparse._ActionsContainer._add_container_actions">_add<wbr></wbr>_container<wbr></wbr>_actions</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#_check_conflict" class="internal-link" title="argparse._ActionsContainer._check_conflict">_check<wbr></wbr>_conflict</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#_get_handler" class="internal-link" title="argparse._ActionsContainer._get_handler">_get<wbr></wbr>_handler</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#_get_optional_kwargs" class="internal-link" title="argparse._ActionsContainer._get_optional_kwargs">_get<wbr></wbr>_optional<wbr></wbr>_kwargs</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#_get_positional_kwargs" class="internal-link" title="argparse._ActionsContainer._get_positional_kwargs">_get<wbr></wbr>_positional<wbr></wbr>_kwargs</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#_handle_conflict_error" class="internal-link" title="argparse._ActionsContainer._handle_conflict_error">_handle<wbr></wbr>_conflict<wbr></wbr>_error</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#_handle_conflict_resolve" class="internal-link" title="argparse._ActionsContainer._handle_conflict_resolve">_handle<wbr></wbr>_conflict<wbr></wbr>_resolve</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#_pop_action_class" class="internal-link" title="argparse._ActionsContainer._pop_action_class">_pop<wbr></wbr>_action<wbr></wbr>_class</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#_registry_get" class="internal-link" title="argparse._ActionsContainer._registry_get">_registry<wbr></wbr>_get</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="basemethod private">
     
     <td>Method</td>
     <td><code><a href="argparse._ActionsContainer.html#_remove_action" class="internal-link" title="argparse._ActionsContainer._remove_action">_remove<wbr></wbr>_action</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#_action_groups" class="internal-link" title="argparse._ActionsContainer._action_groups">_action<wbr></wbr>_groups</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#_actions" class="internal-link" title="argparse._ActionsContainer._actions">_actions</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#_defaults" class="internal-link" title="argparse._ActionsContainer._defaults">_defaults</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#_has_negative_number_optionals" class="internal-link" title="argparse._ActionsContainer._has_negative_number_optionals">_has<wbr></wbr>_negative<wbr></wbr>_number<wbr></wbr>_optionals</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#_mutually_exclusive_groups" class="internal-link" title="argparse._ActionsContainer._mutually_exclusive_groups">_mutually<wbr></wbr>_exclusive<wbr></wbr>_groups</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#_negative_number_matcher" class="internal-link" title="argparse._ActionsContainer._negative_number_matcher">_negative<wbr></wbr>_number<wbr></wbr>_matcher</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#_option_string_actions" class="internal-link" title="argparse._ActionsContainer._option_string_actions">_option<wbr></wbr>_string<wbr></wbr>_actions</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr><tr class="baseinstancevariable private">
     
     <td>Instance Variable</td>
     <td><code><a href="argparse._ActionsContainer.html#_registries" class="internal-link" title="argparse._ActionsContainer._registries">_registries</a></code></td>
-    <td><span class="undocumented">Undocumented</span></td>
+    <td><span class="rst-undocumented">Undocumented</span></td>
   </tr>
 </table>
             
@@ -2019,8 +2019,8 @@ environment variables and <tt class="rst-docutils rst-literal">.ini</tt> or <tt 
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">__init__</span><span class="function-signature">(self, *args, **kwargs)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L721">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">__init__</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">*args, </span><span class="rst-sig-param">**kwargs</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L784">
       
       (source)
     </a>
@@ -2084,8 +2084,8 @@ the args in args_for_writing_out_config_file.</td></tr></table></div>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">already_on_command_line</span><span class="function-signature">(self, existing_args_list, potential_command_line_args)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1372">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">already_on_command_line</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">existing_args_list, </span><span class="rst-sig-param">potential_command_line_args</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1519">
       
       (source)
     </a>
@@ -2112,8 +2112,8 @@ already present in existing_args.</p><table class="fieldTable"><tr class="fieldS
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">convert_item_to_command_line_arg</span><span class="function-signature">(self, action, key, value)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1272">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">convert_item_to_command_line_arg</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">action, </span><span class="rst-sig-param">key, </span><span class="rst-sig-param">value</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1402">
       
       (source)
     </a>
@@ -2128,7 +2128,7 @@ already present in existing_args.</p><table class="fieldTable"><tr class="fieldS
     <div><p>Converts a config file or env var key + value to a list of
 commandline args to append to the commandline.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">action</span></td><td class="fieldArgDesc">The argparse Action object for this setting, or None if this
 config file setting doesn't correspond to any defined
-configargparse arg.</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">key</span></td><td class="fieldArgDesc">string (config file key or env var name)</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">value</span></td><td class="fieldArgDesc">parsed value of type string or list</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></td><td class="fieldArgDesc">args</td></tr></table></div>
+configargparse arg.</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">key</span></td><td class="fieldArgDesc">string (config file key or env var name)</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">value</span></td><td class="fieldArgDesc">parsed value of type string or list</td></tr></table><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]</code></td><td class="fieldArgDesc">args</td></tr></table></div>
   </div>
 </div><div class="basemethod">
   
@@ -2142,8 +2142,8 @@ configargparse arg.</td></tr><tr><td class="fieldArgContainer"><span class="fiel
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">format_help</span><span class="function-signature">(self)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1528">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">format_help</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1690">
       
       (source)
     </a>
@@ -2169,8 +2169,8 @@ configargparse arg.</td></tr><tr><td class="fieldArgContainer"><span class="fiel
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">format_values</span><span class="function-signature">(self)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1494">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">format_values</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1653">
       
       (source)
     </a>
@@ -2197,8 +2197,8 @@ configargparse arg.</td></tr><tr><td class="fieldArgContainer"><span class="fiel
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_command_line_key_for_unknown_config_file_setting</span><span class="function-signature">(self, key)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1210">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_command_line_key_for_unknown_config_file_setting</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">key</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1337">
       
       (source)
     </a>
@@ -2212,7 +2212,7 @@ configargparse arg.</td></tr><tr><td class="fieldArgContainer"><span class="fiel
     
     <div><p>Compute a commandline arg key to be used for a config file setting
 that doesn't correspond to any defined configargparse arg (and so
-doesn't have a user-specified commandline arg key).</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">key</span></td><td class="fieldArgDesc">The config file key that was being set.</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></td><td class="fieldArgDesc">command line key</td></tr></table></div>
+doesn't have a user-specified commandline arg key).</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">key</span></td><td class="fieldArgDesc">The config file key that was being set.</td></tr></table><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></td><td class="fieldArgDesc">command line key</td></tr></table></div>
   </div>
 </div><div class="basemethod">
   
@@ -2226,8 +2226,8 @@ doesn't have a user-specified commandline arg key).</p><table class="fieldTable"
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_items_for_config_file_output</span><span class="function-signature">(self, source_to_settings, parsed_namespace)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1226">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_items_for_config_file_output</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">source_to_settings, </span><span class="rst-sig-param">parsed_namespace</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1353">
       
       (source)
     </a>
@@ -2240,7 +2240,7 @@ doesn't have a user-specified commandline arg key).</p><table class="fieldTable"
   <div class="docstring functionBody">
     
     <div><p>Converts the given settings back to a dictionary that can be passed
-to ConfigFormatParser.serialize(..).</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">source<wbr></wbr>_to<wbr></wbr>_settings</span></td><td class="fieldArgDesc">the dictionary described in parse_known_args()</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">parsed<wbr></wbr>_namespace</span></td><td class="fieldArgDesc">namespace object created within parse_known_args()</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/collections.html#collections.OrderedDict" class="intersphinx-link">OrderedDict</a></code></td><td class="fieldArgDesc">where keys are strings and values are either strings
+to ConfigFormatParser.serialize(..).</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">source<wbr></wbr>_to<wbr></wbr>_settings</span></td><td class="fieldArgDesc">the dictionary described in parse_known_args()</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">parsed<wbr></wbr>_namespace</span></td><td class="fieldArgDesc">namespace object created within parse_known_args()</td></tr></table><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/collections.html#collections.OrderedDict" class="intersphinx-link">OrderedDict</a></code></td><td class="fieldArgDesc">where keys are strings and values are either strings
 or lists</td></tr></table></div>
   </div>
 </div><div class="basemethod">
@@ -2255,8 +2255,8 @@ or lists</td></tr></table></div>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_possible_config_keys</span><span class="function-signature">(self, action)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1352">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_possible_config_keys</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">action</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1499">
       
       (source)
     </a>
@@ -2284,8 +2284,8 @@ can be used to set the given action's value in a config file.</p><table class="f
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_possible_double_minus</span><span class="function-signature">(self)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L840">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_possible_double_minus</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L914">
       
       (source)
     </a>
@@ -2311,8 +2311,8 @@ can be used to set the given action's value in a config file.</p><table class="f
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_possible_help_args</span><span class="function-signature">(self)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L833">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_possible_help_args</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L905">
       
       (source)
     </a>
@@ -2338,8 +2338,8 @@ can be used to set the given action's value in a config file.</p><table class="f
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">get_source_to_settings_dict</span><span class="function-signature">(self)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1163">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">get_source_to_settings_dict</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1290">
       
       (source)
     </a>
@@ -2373,8 +2373,8 @@ method. Here the key will be the option name, and the value will be a 2-tuple of
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">insert_args</span><span class="function-signature">(self, args, extra_args, actions=())</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L898">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">insert_args</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">args, </span><span class="rst-sig-param">extra_args, </span><span class="rst-sig-param">actions=()</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L981">
       
       (source)
     </a>
@@ -2402,8 +2402,8 @@ and return the new list.</p></div>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">parse_args</span><span class="function-signature">(self, args=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, namespace=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, config_file_contents=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, env_vars=<a href="https://docs.python.org/3/library/os.html#os.environ" class="intersphinx-link">os.environ</a>)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L845">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">parse_args</span><span class="function-signature long-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">args=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">namespace=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">config_file_contents=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">env_vars=<a href="https://docs.python.org/3/library/os.html#os.environ" class="intersphinx-link">os.environ</a></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L918">
       
       (source)
     </a>
@@ -2416,7 +2416,7 @@ and return the new list.</p></div>
   <div class="docstring functionBody">
     <div class="interfaceinfo">overrides <code><a href="argparse.ArgumentParser.html#parse_args" class="internal-link">argparse.ArgumentParser.parse_args</a></code></div>
     <div><p>Supports all the same args as the <code><a href="argparse.ArgumentParser.html#parse_args" class="internal-link" title="argparse.ArgumentParser.parse_args">argparse.ArgumentParser.parse_args()</a></code>,
-as well as the following additional args.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">args</span></td><td class="fieldArgDesc">a list of args as in argparse, or a string (eg. "-x -y bla")</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">namespace</span></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">config<wbr></wbr>_file<wbr></wbr>_contents</span></td><td class="fieldArgDesc">String. Used for testing.</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">env<wbr></wbr>_vars</span></td><td class="fieldArgDesc">Dictionary. Used for testing.</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="argparse.Namespace.html" class="internal-link">argparse.Namespace</a></code></td><td class="fieldArgDesc">namespace</td></tr></table></div>
+as well as the following additional args.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">args</span></td><td class="fieldArgDesc">a list of args as in argparse, or a string (eg. "-x -y bla")</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">namespace</span></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">config<wbr></wbr>_file<wbr></wbr>_contents</span></td><td class="fieldArgDesc">String. Used for testing.</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">env<wbr></wbr>_vars</span></td><td class="fieldArgDesc">Dictionary. Used for testing.</td></tr></table><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="argparse.Namespace.html" class="internal-link">argparse.Namespace</a></code></td><td class="fieldArgDesc">namespace</td></tr></table></div>
   </div>
 </div><div class="basemethod">
   
@@ -2430,8 +2430,8 @@ as well as the following additional args.</p><table class="fieldTable"><tr class
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">parse_intermixed_args</span><span class="function-signature">(self, args=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, namespace=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, config_file_contents=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, env_vars=<a href="https://docs.python.org/3/library/os.html#os.environ" class="intersphinx-link">os.environ</a>)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L863">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">parse_intermixed_args</span><span class="function-signature long-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">args=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">namespace=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">config_file_contents=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">env_vars=<a href="https://docs.python.org/3/library/os.html#os.environ" class="intersphinx-link">os.environ</a></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L940">
       
       (source)
     </a>
@@ -2444,7 +2444,7 @@ as well as the following additional args.</p><table class="fieldTable"><tr class
   <div class="docstring functionBody">
     <div class="interfaceinfo">overrides <code><a href="argparse.ArgumentParser.html#parse_intermixed_args" class="internal-link">argparse.ArgumentParser.parse_intermixed_args</a></code></div>
     <div><p>Supports all the same args as the <code><a href="argparse.ArgumentParser.html#parse_intermixed_args" class="internal-link" title="argparse.ArgumentParser.parse_intermixed_args">argparse.ArgumentParser.parse_intermixed_args()</a></code>,
-as well as the following additional args.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">args</span></td><td class="fieldArgDesc">a list of args as in argparse, or a string (eg. "-x -y bla")</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">namespace</span></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">config<wbr></wbr>_file<wbr></wbr>_contents</span></td><td class="fieldArgDesc">String. Used for testing.</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">env<wbr></wbr>_vars</span></td><td class="fieldArgDesc">Dictionary. Used for testing.</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="argparse.Namespace.html" class="internal-link">argparse.Namespace</a></code></td><td class="fieldArgDesc">namespace</td></tr></table></div>
+as well as the following additional args.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">args</span></td><td class="fieldArgDesc">a list of args as in argparse, or a string (eg. "-x -y bla")</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">namespace</span></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">config<wbr></wbr>_file<wbr></wbr>_contents</span></td><td class="fieldArgDesc">String. Used for testing.</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">env<wbr></wbr>_vars</span></td><td class="fieldArgDesc">Dictionary. Used for testing.</td></tr></table><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="argparse.Namespace.html" class="internal-link">argparse.Namespace</a></code></td><td class="fieldArgDesc">namespace</td></tr></table></div>
   </div>
 </div><div class="basemethod">
   
@@ -2458,8 +2458,8 @@ as well as the following additional args.</p><table class="fieldTable"><tr class
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">parse_known_args</span><span class="function-signature">(self, args=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, namespace=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, config_file_contents=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, env_vars=<a href="https://docs.python.org/3/library/os.html#os.environ" class="intersphinx-link">os.environ</a>, ignore_help_args=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L922">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">parse_known_args</span><span class="function-signature long-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">args=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">namespace=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">config_file_contents=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">env_vars=<a href="https://docs.python.org/3/library/os.html#os.environ" class="intersphinx-link">os.environ</a>, </span><span class="rst-sig-param">ignore_help_args=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1005">
       
       (source)
     </a>
@@ -2474,7 +2474,7 @@ as well as the following additional args.</p><table class="fieldTable"><tr class
     <div><p>Supports all the same args as the <code><a href="argparse.ArgumentParser.html#parse_known_args" class="internal-link" title="argparse.ArgumentParser.parse_known_args">argparse.ArgumentParser.parse_known_args()</a></code>,
 as well as the following additional args.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">args</span></td><td class="fieldArgDesc">a list of args as in argparse, or a string (eg. "-x -y bla")</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">namespace</span></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">config<wbr></wbr>_file<wbr></wbr>_contents:</span><code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></td><td class="fieldArgDesc"></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">env<wbr></wbr>_vars:</span><code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></td><td class="fieldArgDesc"></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">ignore<wbr></wbr>_help<wbr></wbr>_args:</span><code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code></td><td class="fieldArgDesc">This flag determines behavior when user specifies <tt class="rst-docutils rst-literal"><span class="pre">--help</span></tt>
 or <tt class="rst-docutils rst-literal"><span class="pre">-h</span></tt>. If False, it will have the default behavior - printing help and exiting.
-If True, it won't do either.</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/stdtypes.html#tuple" class="intersphinx-link">tuple</a>[<a href="argparse.Namespace.html" class="internal-link">argparse.Namespace</a></code>, <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]]</code></td><td class="fieldArgDesc">tuple namescpace, unknown_args</td></tr></table></div>
+If True, it won't do either.</td></tr></table><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/stdtypes.html#tuple" class="intersphinx-link">tuple</a>[<a href="argparse.Namespace.html" class="internal-link">argparse.Namespace</a></code>, <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]]</code></td><td class="fieldArgDesc">tuple namescpace, unknown_args</td></tr></table></div>
   </div>
 </div><div class="basemethod">
   
@@ -2488,8 +2488,8 @@ If True, it won't do either.</td></tr><tr class="fieldStart"><td class="fieldNam
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">parse_known_intermixed_args</span><span class="function-signature">(self, args=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, namespace=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, config_file_contents=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, env_vars=<a href="https://docs.python.org/3/library/os.html#os.environ" class="intersphinx-link">os.environ</a>, ignore_help_args=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L951">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">parse_known_intermixed_args</span><span class="function-signature long-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">args=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">namespace=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">config_file_contents=<a href="https://docs.python.org/3/library/constants.html#None" class="intersphinx-link">None</a>, </span><span class="rst-sig-param">env_vars=<a href="https://docs.python.org/3/library/os.html#os.environ" class="intersphinx-link">os.environ</a>, </span><span class="rst-sig-param">ignore_help_args=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1036">
       
       (source)
     </a>
@@ -2504,7 +2504,7 @@ If True, it won't do either.</td></tr><tr class="fieldStart"><td class="fieldNam
     <div><p>Supports all the same args as the <code><a href="argparse.ArgumentParser.html#parse_known_intermixed_args" class="internal-link" title="argparse.ArgumentParser.parse_known_intermixed_args">argparse.ArgumentParser.parse_known_intermixed_args()</a></code>,
 as well as the following additional args.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">args</span></td><td class="fieldArgDesc">a list of args as in argparse, or a string (eg. "-x blah -y blaz")</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">namespace</span></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">config<wbr></wbr>_file<wbr></wbr>_contents:</span><code><a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a></code></td><td class="fieldArgDesc"></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">env<wbr></wbr>_vars:</span><code><a href="https://docs.python.org/3/library/stdtypes.html#dict" class="intersphinx-link">dict</a></code></td><td class="fieldArgDesc"></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">ignore<wbr></wbr>_help<wbr></wbr>_args:</span><code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code></td><td class="fieldArgDesc">This flag determines behavior when user specifies <tt class="rst-docutils rst-literal"><span class="pre">--help</span></tt>
 or <tt class="rst-docutils rst-literal"><span class="pre">-h</span></tt>. If False, it will have the default behavior - printing help and exiting.
-If True, it won't do either.</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/stdtypes.html#tuple" class="intersphinx-link">tuple</a>[<a href="argparse.Namespace.html" class="internal-link">argparse.Namespace</a></code>, <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]]</code></td><td class="fieldArgDesc">tuple namescpace, unknown_args</td></tr></table></div>
+If True, it won't do either.</td></tr></table><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/stdtypes.html#tuple" class="intersphinx-link">tuple</a>[<a href="argparse.Namespace.html" class="internal-link">argparse.Namespace</a></code>, <code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[<a href="https://docs.python.org/3/library/stdtypes.html#str" class="intersphinx-link">str</a>]]</code></td><td class="fieldArgDesc">tuple namescpace, unknown_args</td></tr></table></div>
   </div>
 </div><div class="basemethod">
   
@@ -2518,8 +2518,8 @@ If True, it won't do either.</td></tr><tr class="fieldStart"><td class="fieldNam
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">print_values</span><span class="function-signature">(self, file=<a href="https://docs.python.org/3/library/sys.html#sys.stdout" class="intersphinx-link">sys.stdout</a>)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1524">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">print_values</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">file=<a href="https://docs.python.org/3/library/sys.html#sys.stdout" class="intersphinx-link">sys.stdout</a></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1686">
       
       (source)
     </a>
@@ -2545,8 +2545,8 @@ If True, it won't do either.</td></tr><tr class="fieldStart"><td class="fieldNam
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">write_config_file</span><span class="function-signature">(self, parsed_namespace, output_file_paths, exit_after=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a>)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1182">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">write_config_file</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">parsed_namespace, </span><span class="rst-sig-param">output_file_paths, </span><span class="rst-sig-param">exit_after=<a href="https://docs.python.org/3/library/constants.html#False" class="intersphinx-link">False</a></span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1308">
       
       (source)
     </a>
@@ -2572,7 +2572,7 @@ If True, it won't do either.</td></tr><tr class="fieldStart"><td class="fieldNam
   <div class="functionHeader">
     
     <span class="py-defname">last_parsed_args</span> =
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L808">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L874">
       
       (source)
     </a>
@@ -2599,8 +2599,8 @@ If True, it won't do either.</td></tr><tr class="fieldStart"><td class="fieldNam
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">_error_may_exit</span><span class="function-signature">(self, msg)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1586">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">_error_may_exit</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">msg</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1761">
       
       (source)
     </a>
@@ -2628,8 +2628,8 @@ want to call self.error() directly.</p></div>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">_open_config_files</span><span class="function-signature">(self, command_line_args)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1408">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">_open_config_files</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">command_line_args</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1561">
       
       (source)
     </a>
@@ -2644,26 +2644,26 @@ want to call self.error() directly.</p></div>
     <div><p>Tries to parse config file path(s) from within command_line_args.
 Returns a list of opened config files, including files specified on the
 commandline as well as any default_config_files specified in the
-constructor that are present on disk.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">command<wbr></wbr>_line<wbr></wbr>_args</span></td><td class="fieldArgDesc">List of all args</td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[IO]</code></td><td class="fieldArgDesc">open config files</td></tr></table></div>
+constructor that are present on disk.</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">command<wbr></wbr>_line<wbr></wbr>_args</span></td><td class="fieldArgDesc">List of all args</td></tr></table><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="https://docs.python.org/3/library/stdtypes.html#list" class="intersphinx-link">list</a>[IO]</code></td><td class="fieldArgDesc">open config files</td></tr></table></div>
   </div>
 </div><div class="basemethod private">
   
   
-  <a name="configargparse.ArgumentParser._parse_args_cap">
+  <a name="configargparse.ArgumentParser._parse_args_impl">
     
   </a>
-  <a name="_parse_args_cap">
+  <a name="_parse_args_impl">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">_parse_args_cap</span><span class="function-signature">(self, intermixed, args, namespace, config_file_contents, env_vars)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L881">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">_parse_args_impl</span><span class="function-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">intermixed, </span><span class="rst-sig-param">args, </span><span class="rst-sig-param">namespace, </span><span class="rst-sig-param">config_file_contents, </span><span class="rst-sig-param">env_vars</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L962">
       
       (source)
     </a>
-    <a class="headerLink" href="#_parse_args_cap" title="configargparse.ArgumentParser._parse_args_cap">
+    <a class="headerLink" href="#_parse_args_impl" title="configargparse.ArgumentParser._parse_args_impl">
       
       
       ¶
@@ -2677,21 +2677,21 @@ parse_intermixed_args (with intermixed=True).</p></div>
 </div><div class="basemethod private">
   
   
-  <a name="configargparse.ArgumentParser._parse_known_args_cap">
+  <a name="configargparse.ArgumentParser._parse_known_args_impl">
     
   </a>
-  <a name="_parse_known_args_cap">
+  <a name="_parse_known_args_impl">
     
   </a>
   <div class="functionHeader">
     
     
-    <span class="py-keyword">def</span> <span class="py-defname">_parse_known_args_cap</span><span class="function-signature">(self, intermixed, args, namespace, config_file_contents, env_vars, ignore_help_args)</span>:
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L980">
+    <span class="py-keyword">def</span>&#160;<span class="py-defname">_parse_known_args_impl</span><span class="function-signature long-signature">(<span class="rst-sig-param"><span class="rst-undocumented">self</span>, </span><span class="rst-sig-param">intermixed, </span><span class="rst-sig-param">args, </span><span class="rst-sig-param">namespace, </span><span class="rst-sig-param">config_file_contents, </span><span class="rst-sig-param">env_vars, </span><span class="rst-sig-param">ignore_help_args</span>):</span>
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1067">
       
       (source)
     </a>
-    <a class="headerLink" href="#_parse_known_args_cap" title="configargparse.ArgumentParser._parse_known_args_cap">
+    <a class="headerLink" href="#_parse_known_args_impl" title="configargparse.ArgumentParser._parse_known_args_impl">
       
       
       ¶
@@ -2714,7 +2714,7 @@ parse_known_intermixed_args (with intermixed=True).</p></div>
   <div class="functionHeader">
     
     <span class="py-defname">_add_config_file_help</span>: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> =
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L800">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L866">
       
       (source)
     </a>
@@ -2741,7 +2741,7 @@ parse_known_intermixed_args (with intermixed=True).</p></div>
   <div class="functionHeader">
     
     <span class="py-defname">_add_env_var_help</span>: <code><a href="https://docs.python.org/3/library/functions.html#bool" class="intersphinx-link">bool</a></code> =
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L801">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L867">
       
       (source)
     </a>
@@ -2768,7 +2768,7 @@ parse_known_intermixed_args (with intermixed=True).</p></div>
   <div class="functionHeader">
     
     <span class="py-defname">_auto_env_var_prefix</span> =
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L802">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L868">
       
       (source)
     </a>
@@ -2795,7 +2795,7 @@ parse_known_intermixed_args (with intermixed=True).</p></div>
   <div class="functionHeader">
     
     <span class="py-defname">_config_file_open_func</span> =
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L798">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L864">
       
       (source)
     </a>
@@ -2822,7 +2822,7 @@ parse_known_intermixed_args (with intermixed=True).</p></div>
   <div class="functionHeader">
     
     <span class="py-defname">_config_file_parser</span> =
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L812">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L878">
       
       (source)
     </a>
@@ -2849,7 +2849,7 @@ parse_known_intermixed_args (with intermixed=True).</p></div>
   <div class="functionHeader">
     
     <span class="py-defname">_default_config_files</span> =
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L819">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L885">
       
       (source)
     </a>
@@ -2876,7 +2876,7 @@ parse_known_intermixed_args (with intermixed=True).</p></div>
   <div class="functionHeader">
     
     <span class="py-defname">_ignore_unknown_config_file_keys</span> =
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L820">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L886">
       
       (source)
     </a>
@@ -2903,7 +2903,7 @@ parse_known_intermixed_args (with intermixed=True).</p></div>
   <div class="functionHeader">
     
     <span class="py-defname">_source_to_settings</span> =
-    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/206a917f3b112fbe56cd093e7f390fc1d02658db/configargparse.py#L1017">
+    <a class="sourceLink" href="https://github.com/tbooth/ConfigArgParse/tree/6205e84b93ccc76d13401f5fdb7edb33bb339faf/configargparse.py#L1110">
       
       (source)
     </a>
@@ -2928,9 +2928,9 @@ parse_known_intermixed_args (with intermixed=True).</p></div>
 
   
   <div class="container-fluid">
-    <a href="index.html">API Documentation</a> for <a href="https://github.com/tbooth/ConfigArgParse" class="projecthome">ConfigArgParse 1.8.0.post28+git.206a917f</a>,
+    <a href="index.html">API Documentation</a> for <a href="https://github.com/tbooth/ConfigArgParse" class="projecthome">ConfigArgParse 1.5.7.post81+git.6205e84b</a>,
   generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
-    24.11.2 at 2025-05-19 14:23:58.
+    25.4.0 at 2025-06-03 16:34:40.
   </div>
 
   <!-- Search related scripts needs to be loaded at the end of HTML 
