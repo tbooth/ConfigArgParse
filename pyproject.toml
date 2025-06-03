@@ -5,7 +5,3 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools-git-versioning]
 enabled = true
 version_file = "ConfigArgParse/VERSION"
-
-[tool.setuptools.package-data]
-# include VERSION file to a package
-my_module = ["VERSION"]
