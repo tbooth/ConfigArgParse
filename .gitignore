@@ -6,6 +6,7 @@ apidocs
 *.so
 
 # Packages
+*.whl
 *.egg
 *.egg-info
 dist
